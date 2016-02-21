@@ -142,6 +142,9 @@ module.exports = (robot) ->
 			realname = user.real_name
 			email = user.email
 
+			if email == undefined
+				email = 'info@occhio.nl'
+
 			res.send "#{name} is gaat IRL onder de naam #{realname}\n#{name} is te mailen op #{email}"
 
 	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
