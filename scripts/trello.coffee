@@ -75,8 +75,7 @@ module.exports = (robot) ->
 			for list in board.lists
 				msg.send list.name
 				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
-					for card in cards
-					msg.send card.name
+					msg.send card.name for card in cards
 
 	robot.respond /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
