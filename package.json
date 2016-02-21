@@ -20,6 +20,7 @@
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^3.4.2",
     "hubot-thesimpsons": "^1.1.4",
+    "hubot-trello": "^0.1.1",
     "hubot-trello-organization": "0.0.2",
     "hubot-wakeup": "0.0.4",
     "trello": "^0.5.1"
