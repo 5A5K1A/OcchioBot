@@ -38,7 +38,7 @@ module.exports = (robot) ->
 		res.send res.random lulz
 
 	robot.topic (res) ->
-		res.send "#{res.message.text}? That's a Paddlin'"
+		res.send "#{res.message.text}? Dat is een prima topic voor dit channel!"
 
 
 	enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
