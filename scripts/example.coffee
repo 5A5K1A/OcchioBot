@@ -123,7 +123,7 @@ module.exports = (robot) ->
 			robot.brain.set 'totalBeers', beersHad+1
 
 		else if beersHad > 3
-			res.send "Prima #{name}, maar dat is de laatste..."
+			res.send "Prima @#{name}, maar dat is de laatste..."
 			robot.brain.set 'totalBeers', beersHad+1
 		else
 			res.reply res.random beerz
