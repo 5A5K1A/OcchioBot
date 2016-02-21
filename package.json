@@ -1,9 +1,9 @@
 {
-  "name": "occhiobot",
+  "name": "OcchioBot",
   "version": "0.0.0",
   "private": true,
-  "author": "saskia@occhio.nl",
-  "description": "Handige bot voor Occhio",
+  "author": "Occhio <saskia+bot@occhio.nl>",
+  "description": "OcchioBot to the rescue! Ask me anything",
   "dependencies": {
     "hubot": "^2.18.0",
     "hubot-diagnostics": "0.0.1",
@@ -17,8 +17,7 @@
     "hubot-rules": "^0.1.1",
     "hubot-scripts": "^2.16.2",
     "hubot-shipit": "^0.2.0",
-    "hubot-slack": "^3.4.2",
-    "hubot-thesimpsons": "^1.1.4"
+    "hubot-slack": "^3.4.2"
   },
   "engines": {
     "node": "0.10.x"
