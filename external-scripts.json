@@ -9,5 +9,7 @@
 	"hubot-shipit",
 	"hubot-thesimpsons",
 	"hubot-wakeup",
-	"node-trello"
+	"node-trello",
+	"hubot-dance",
+	"hubot-reaction"
 ]
