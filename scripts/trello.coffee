@@ -122,7 +122,7 @@ module.exports = (robot) ->
 						 user.trellolist = list.id
 						 msg.reply "Your trello list is set to #{list.name}"
 
-	robot.respond /trello cards op kantoor/i, (msg) ->
+	robot.respond /trello aanwezig/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
