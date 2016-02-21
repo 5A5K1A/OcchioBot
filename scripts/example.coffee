@@ -140,8 +140,8 @@ module.exports = (robot) ->
 		if users.length is 1
 			user = users[0]
 			real_name = user.profile.real_name
-			email = ' <' + user.profile.email + '>'
-			full_info = real_name + email
+			
+			full_info = real_name
 
 			res.send "#{name} is user - #{full_info}"
 
