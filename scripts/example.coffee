@@ -40,7 +40,6 @@ module.exports = (robot) ->
 	robot.topic (res) ->
 		res.send "#{res.message.text}? Dat is een prima topic voor dit channel!"
 
-
 	enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
 	leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
 
@@ -104,6 +103,10 @@ module.exports = (robot) ->
 
 		if sodasHad > 4
 			res.reply "I'm too fizzy.."
+
+		else sodasHad > 3
+			res.reply "Sure, but that'll be my last one..."
+			robot.brain.set 'totalSodas', sodasHad+1
 
 		else
 			res.reply 'Sure!'
