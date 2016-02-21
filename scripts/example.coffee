@@ -143,7 +143,7 @@ module.exports = (robot) ->
 			email = user.email
 
 			if email == undefined
-				email = 'info@occhio.nl o.v.v. #{realname}'
+				email = "info@occhio.nl o.v.v. #{realname}"
 
 			res.send "#{name} is gaat IRL onder de naam #{realname}\n#{realname} is te mailen op #{email}"
 
