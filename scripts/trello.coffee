@@ -125,13 +125,10 @@ module.exports = (robot) ->
 	robot.respond /trello cards/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
-		trelloboard = user.trelloboard
 		trellolist = user.trellolist
 		trello = new Trello trello_key, trellotoken
 		if !trellotoken
 			msg.reply "You have no trellotoken"
-		else if !trelloboard
-			msg.reply "You have no trelloboard"
 		else if !trellolist
 			msg.reply "You have no trellolist"
 		else
