@@ -21,7 +21,8 @@
     "hubot-slack": "^3.4.2",
     "hubot-thesimpsons": "^1.1.4",
     "hubot-trello-organization": "0.0.2",
-    "hubot-wakeup": "0.0.4"
+    "hubot-wakeup": "0.0.4",
+    "trello": "^0.5.1"
   },
   "engines": {
     "node": "0.10.x"
