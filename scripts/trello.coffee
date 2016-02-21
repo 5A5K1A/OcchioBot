@@ -73,6 +73,7 @@ module.exports = (robot) ->
 			msg.send "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
 			t.get "/1/boards/#{board.id}/lists", (err, data) ->
 				msg.send list.name for list in data
+				msg.send "#{list.id}"
 				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
 					msg.send card.name for card in cards
 
