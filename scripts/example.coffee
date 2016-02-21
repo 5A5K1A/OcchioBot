@@ -145,7 +145,7 @@ module.exports = (robot) ->
 			if email == undefined
 				email = "info@occhio.nl o.v.v. #{realname}"
 
-			res.send "#{name} is gaat IRL onder de naam #{realname}\n#{realname} is te mailen op #{email}"
+			res.send "#{name} is gaat IRL onder de naam #{realname}\nen is te mailen op #{email}"
 
 	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
 
@@ -153,3 +153,6 @@ module.exports = (robot) ->
 
 		# This will execute no faster than once every hundred seconds
 		res.send "Hee, hallootjes @#{name}!"
+
+	robot.hear /wie (.*) vandaag op kantoor/i, (res) ->
+		res.send "Dan moet je even op het Trello bord kijken, of je kunt '/trello aanwezig' gebruiken."

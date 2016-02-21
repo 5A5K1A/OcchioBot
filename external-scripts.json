@@ -10,5 +10,6 @@
   "hubot-rules",
   "hubot-shipit",
   "hubot-thesimpsons",
-  "hubot-wakeup"
+  "hubot-wakeup",
+  "hubot-trello-organization"
 ]
