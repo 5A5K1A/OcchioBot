@@ -19,7 +19,7 @@ module.exports = (robot) ->
 	robot.hear /wie is occhio/i, (res) ->
 		res.send "Let me introduce myself...\nIk ben de enige echte Occhio Bot.\n" +
 			"I'm here to help & guide you through the wonders of Slack & Occhio... Let's go!\n" +
-			"Als je hulp nodig hebt, kun je met `<occhio help>` zien wat ik allemaal voor je kan regelen.\n" +
+			"Als je hulp nodig hebt, kun je met `occhio help` zien wat ik allemaal voor je kan regelen.\n" +
 			"Momenteel bevind ik me nog in de constructie-fase, so bear with me..."
 
 	robot.hear /badger/i, (res) ->
@@ -151,12 +151,15 @@ module.exports = (robot) ->
 			res.send "#{name} is gaat IRL onder de naam #{realname}\nen is te mailen op #{email}"
 
 	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
-
 		name = res.message.user.name
-
 		# This will execute no faster than once every hundred seconds
 		res.send "Hee, hallootjes @#{name}!"
 
+	robot.hear /doei/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
+		name = res.message.user.name
+		# This will execute no faster than once every hundred seconds
+		res.send "Superdoei @#{name}!"
+
 	robot.hear /wie (.*) vandaag op kantoor/i, (res) ->
 		res.send "Dan moet je even op het Trello bord (https://trello.com/b/6MvsMMx1/aanwezigheid) kijken,\n" +
-			"of je kunt `<occhio trello aanwezig>` gebruiken."
+			"of je kunt `occhio trello aanwezig` gebruiken."
