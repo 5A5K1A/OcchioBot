@@ -10,6 +10,9 @@
 
 module.exports = (robot) ->
 
+	robot.hear /wie is occhiobot/i, (res) ->
+		res.send "Let me introduce myself..."
+
 	robot.hear /badger/i, (res) ->
 		res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
 
