@@ -73,12 +73,10 @@ module.exports = (robot) ->
 			msg.send "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
 			console.log board.name
 			t.get "/1/boards/#{board.id}/lists", (err, data) ->
-				for list in data
-					console.log list.name
-					msg.send list.name
-					t.get "/1/lists/#{list.id}/cards", (err, cards) ->
-						botresponse = card.name for card in cards
-					msg.send botresponse
+				msg.send list.name for list in data
+				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
+					botresponse = card.name for card in cards
+#					msg.send botresponse
 
 
 	robot.respond /trello get board (.*)/i, (msg) ->
