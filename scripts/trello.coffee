@@ -60,26 +60,23 @@ module.exports = (robot) ->
 #		user = msg.message.user
 #		trellotoken = trello_token
 #		t = new Trello trello_key, trellotoken
-#		t.get '/1/members/me/boards/', (err,data) ->
+#		t.get '/1/organizations/occhionl/boards/public', (err,data) ->
 #			console.log board for board in data
 #			msg.send board.name for board in data
 
-	robot.respond /list aanwezig/i, (msg) ->
+	robot.respond /trello list aanwezig/i, (msg) ->
 		board_name = Aanwezigheid
 		user = msg.message.user
 		trellotoken = trello_token
 		t = new Trello trello_key, trellotoken
-		t.get '/1/members/me/boards/', (err, data) ->
-			for board in data
-				if board.name == board_name
-					user.trelloboard = board.id
-					msg.reply "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
-					t.get "/1/boards/#{board.id}/lists", (err, lists) ->
-						for list in lists
-							msg.send list.name
-#							t.get "/1/lists/#{list.id}/cards", (err, cards) ->
-#								for card in cards
-#									msg.send card.name
+		t.get '/1/boards/6MvsMMx1', (err, board) ->
+			user.trelloboard = board.id
+			msg.reply "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
+			for list in board.lists
+				msg.send list.name
+				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
+					for card in cards
+					msg.send card.name
 
 	robot.respond /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
