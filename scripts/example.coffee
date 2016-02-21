@@ -104,10 +104,6 @@ module.exports = (robot) ->
 		if sodasHad > 4
 			res.reply "I'm too fizzy.."
 
-		else sodasHad > 3
-			res.reply "Sure, but that'll be my last one..."
-			robot.brain.set 'totalSodas', sodasHad+1
-
 		else
 			res.reply 'Sure!'
 			robot.brain.set 'totalSodas', sodasHad+1
