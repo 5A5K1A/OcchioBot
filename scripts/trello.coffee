@@ -128,7 +128,8 @@ module.exports = (robot) ->
 		trello = new Trello trello_key, trellotoken
 		theReply = "De volgende mensen zijn op kantoor:\n"
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
-			theReply += "* #{card.name}\n" for card in data
+			for card in data
+				theReply += "* #{card.name}\n"
 
 		msg.send theReply
 
