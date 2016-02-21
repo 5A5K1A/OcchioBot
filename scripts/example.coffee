@@ -139,8 +139,9 @@ module.exports = (robot) ->
 		users = robot.brain.usersForFuzzyName(name)
 		if users.length is 1
 			user = users[0]
+			info = user.real_name
 
-			res.send "#{name} is user - #{user.real_name}"
+			res.send "#{name} is user - #{info}"
 
 	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
 
