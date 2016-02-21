@@ -105,6 +105,8 @@ module.exports = (robot) ->
 		# Get number of beers had (coerced to a number).
 		beersHad = robot.brain.get('totalBeers') * 1 or 0
 
+		name = res.message.user.name
+
 		if beersHad > 10
 			res.send 'Zzz... Zzz...'
 
@@ -121,7 +123,7 @@ module.exports = (robot) ->
 			robot.brain.set 'totalBeers', beersHad+1
 
 		else if beersHad > 3
-			res.reply "Prima, maar dat is de laatste..."
+			res.send "Prima #{name}, maar dat is de laatste..."
 			robot.brain.set 'totalBeers', beersHad+1
 		else
 			res.reply res.random beerz
@@ -130,3 +132,13 @@ module.exports = (robot) ->
 	robot.respond /ga slapen/i, (res) ->
 		robot.brain.set 'totalBeers', 0
 		res.send 'Zzz... Zzz... Zzz...'
+
+	robot.respond /who is @?([\w .\-]+)\?*$/i, (res) ->
+		name = res.match[1].trim()
+
+		users = robot.brain.usersForFuzzyName(name)
+		if users.length is 1
+			user = users[0]
+			# Do something interesting here..
+
+			res.send "#{name} is user - #{user}"
