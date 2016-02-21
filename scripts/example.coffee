@@ -16,8 +16,10 @@ module.exports = (robot) ->
 		res.reply response
 		return
 
-	robot.hear /wie is occhiobot/i, (res) ->
-		res.send "Let me introduce myself..."
+	robot.hear /wie is occhio/i, (res) ->
+		res.send "Let me introduce myself...\nIk ben de enige echte Occhio Bot.\n" +
+			"I'm here to help & guide you through the wonders of Slack & Occhio... Let's go!\n" +
+			"Als je hulp nodig hebt, kun je met 'occhio help'"
 
 	robot.hear /badger/i, (res) ->
 		res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
