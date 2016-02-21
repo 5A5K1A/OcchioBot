@@ -125,7 +125,7 @@ module.exports = (robot) ->
 	robot.respond /trello cards op kantoor/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
-		trellolist = user.trellolist
+		trellolist = '565eb03ef6a6e23e7d04219b'
 		trello = new Trello trello_key, trellotoken
 		if !trellotoken
 			msg.reply "You have no trellotoken"
