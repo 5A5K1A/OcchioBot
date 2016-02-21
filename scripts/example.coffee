@@ -97,16 +97,16 @@ module.exports = (robot) ->
 		if res?
 			res.reply "DOES NOT COMPUTE"
 
-	robot.respond /have a soda/i, (res) ->
+	robot.respond /bier?/i, (res) ->
 		# Get number of sodas had (coerced to a number).
 		sodasHad = robot.brain.get('totalSodas') * 1 or 0
 
 		if sodasHad > 4
-			res.reply "I'm too fizzy.."
+			res.reply "OMG, I'm way too drunk..."
 
 		else
 			if sodasHad > 3
-				res.reply "Sure, but that'll be my last one..."
+				res.reply "Sure, maar dat is de laatste..."
 				robot.brain.set 'totalSodas', sodasHad+1
 			else
 				res.reply 'Sure!'
@@ -114,4 +114,4 @@ module.exports = (robot) ->
 
 	robot.respond /sleep it off/i, (res) ->
 		robot.brain.set 'totalSodas', 0
-		res.reply 'zzzzz'
+		res.reply 'Zzz... Zzz...'
