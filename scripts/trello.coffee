@@ -70,9 +70,9 @@ module.exports = (robot) ->
 		t = new Trello trello_key, trellotoken
 		t.get '/1/boards/6MvsMMx1', (err, board) ->
 			user.trelloboard = board.id
-			msg.reply "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
-#			for list in board.lists
-#				msg.send list.name
+			msg.send "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
+
+				msg.send list.name for list in board.lists
 #				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
 #					msg.send card.name for card in cards
 
