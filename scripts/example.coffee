@@ -101,7 +101,7 @@ module.exports = (robot) ->
 
 	drunkz = ['OK, nog eentje dan...', 'Heladijoo, heladijee', 'En we gaan nog niet naar huis, nog languh niet...', 'BURP']
 
-	robot.respond /bier?/i, (res) ->
+	robot.respond /bier/i, (res) ->
 		# Get number of beers had (coerced to a number).
 		beersHad = robot.brain.get('totalBeers') * 1 or 0
 
@@ -133,7 +133,7 @@ module.exports = (robot) ->
 		robot.brain.set 'totalBeers', 0
 		res.send 'Zzz... Zzz... Zzz...'
 
-	robot.respond /who is @?([\w .\-]+)\?*$/i, (res) ->
+	robot.respond /wie is @?([\w .\-]+)\?*$/i, (res) ->
 		name = res.match[1].trim()
 
 		users = robot.brain.usersForFuzzyName(name)
