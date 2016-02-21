@@ -72,10 +72,12 @@ module.exports = (robot) ->
 			user.trelloboard = board.id
 			msg.send "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
 			t.get "/1/boards/#{board.id}/lists", (err, data) ->
-				msg.send list.name + " - " + list.id for list in data
+				for list in data
+					botresponse = list.name + "\n"
+					t.get "/1/lists/#{list.id}/cards", (err, cards) ->
+						botresponse += card.name for card in cards
+				msg.send botresponse
 
-				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
-					msg.send card.name for card in cards
 
 	robot.respond /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
