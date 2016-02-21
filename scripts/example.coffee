@@ -142,3 +142,10 @@ module.exports = (robot) ->
 			# Do something interesting here..
 
 			res.send "#{name} is user - #{user}"
+
+	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
+
+		name = res.message.user.name
+
+		# This will execute no faster than once every hundred seconds
+		res.send "Hee, hallootjes @#{name}!"
