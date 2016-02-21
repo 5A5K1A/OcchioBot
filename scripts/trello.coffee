@@ -74,8 +74,8 @@ module.exports = (robot) ->
 			msg.reply "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
 			for list in board.lists
 				msg.send list.name
-				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
-					msg.send card.name for card in cards
+#				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
+#					msg.send card.name for card in cards
 
 	robot.respond /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
