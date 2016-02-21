@@ -102,7 +102,7 @@ module.exports = (robot) ->
 			msg.reply "You have no trelloboard"
 		else
 			trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
-				msg.send list.name for list in data
+				msg.send "#{list.name} (#{list.id})" for list in data
 
 
 	 robot.respond /trello set my list to (.*)/i, (msg) ->
@@ -122,7 +122,7 @@ module.exports = (robot) ->
 						 user.trellolist = list.id
 						 msg.reply "Your trello list is set to #{list.name}"
 
-	robot.respond /trello cards/i, (msg) ->
+	robot.respond /trello cards op kantoor/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trellolist = user.trellolist
