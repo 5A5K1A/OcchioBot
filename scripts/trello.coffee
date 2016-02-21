@@ -8,15 +8,11 @@
 #   HUBOT_TRELLO_KEY - your trello developer key
 #
 # Commands:
-#   hubot trello all the users - which users do we know about trello for
-#   hubot trello get token - provides instructions on acquiring a token
-#   hubot trello set token <token> - set the authentication token
-#   hubot trello forget me - deletes the authentication token
-#   hubot trello boards - list your trello boards
-#   hubot trello set my board to <board> - set your default board
+#   hubot trello get board <board> - get the specified trello board
 #   hubot trello lists - list your trello lists on the default board
 #   hubot trello set my list to <list> - set your default list
-#   hubot trello me <message> - add a new card to your default list
+#   hubot trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
+#   hubot trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
 #
 # Notes:
 #   Currently cards can only be added to your default list/board although
@@ -105,22 +101,20 @@ module.exports = (robot) ->
 				msg.send "#{list.name} (#{list.id})" for list in data
 
 
-	 robot.respond /trello set my list to (.*)/i, (msg) ->
-		 list_name = msg.match[1]
-		 user = msg.message.user
-		 trellotoken = trello_token
-		 trelloboard = user.trelloboard
-		 trello = new Trello trello_key, trellotoken
-		 if !trellotoken
-			 msg.reply "You have no trellotoken"
-		 else if !trelloboard
-			 msg.reply "You have no trelloboard"
-		 else
-			 trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
-				 for list in data
-					 if list.name == list_name
-						 user.trellolist = list.id
-						 msg.reply "Your trello list is set to #{list.name}"
+	robot.respond /trello set my list to (.*)/i, (msg) ->
+		list_name = msg.match[1]
+		user = msg.message.user
+		trellotoken = trello_token
+		trelloboard = user.trelloboard
+		trello = new Trello trello_key, trellotoken
+		if !trelloboard
+			msg.reply "You have no trelloboard"
+		else
+			trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
+				for list in data
+					if list.name == list_name
+						user.trellolist = list.id
+						msg.reply "Your trello list is set to #{list.name}"
 
 	robot.respond /trello aanwezig/i, (msg) ->
 		user = msg.message.user
@@ -130,9 +124,13 @@ module.exports = (robot) ->
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
 			msg.send "* #{card.name}\n" for card in data
 
-#		msg.send "En deze collega's werken vandaag thuis:\n"
-#		trello.get "/1/lists/565eb0554688609aecd8948a/cards", (err, data) ->
-#			msg.send "* #{card.name}\n" for card in data
+	robot.respond /trello thuis/i, (msg) ->
+		user = msg.message.user
+		trellotoken = trello_token
+		trello = new Trello trello_key, trellotoken
+		msg.send "Deze collega's werken vandaag thuis:\n"
+		trello.get "/1/lists/565eb0554688609aecd8948a/cards", (err, data) ->
+			msg.send "* #{card.name}\n" for card in data
 
 	robot.respond /trello me (.*)/i, (msg) ->
 		content = msg.match[1]
