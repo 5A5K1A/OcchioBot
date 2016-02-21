@@ -31,6 +31,8 @@ module.exports = (robot) ->
 	trello_key = process.env.HUBOT_TRELLO_KEY
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
 
+	trello = new Trello trello_key, trello_token
+
 	robot.respond /trello all the users/i, (msg) ->
 		theReply = "Here is who I know:\n"
 
@@ -59,21 +61,20 @@ module.exports = (robot) ->
 #	robot.respond /trello boards/i, (msg) ->
 #		user = msg.message.user
 #		trellotoken = trello_token
-#		t = new Trello trello_key, trellotoken
-#		t.get '/1/organizations/occhionl/boards/public', (err,data) ->
+#		trello = new Trello trello_key, trellotoken
+#		trello.get '/1/organizations/occhionl/boards/public', (err,data) ->
 #			console.log board for board in data
 #			msg.send board.name for board in data
 
 	robot.respond /trello list aanwezig/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
-		t = new Trello trello_key, trellotoken
-		t.get '/1/boards/6MvsMMx1', (err, board) ->
+		trello = new Trello trello_key, trellotoken
+		trello.get '/1/boards/6MvsMMx1', (err, board) ->
 			user.trelloboard = board.id
 			msg.send "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
-			console.log board.name
-			t.get "/1/boards/#{board.id}/lists", (err, data) ->
-				t.get "/1/lists/#{list.id}/cards", (err, cards) ->
+			trello.get "/1/boards/#{board.id}/lists", (err, data) ->
+				trello.get "/1/lists/#{list.id}/cards", (err, cards) ->
 					botresponse = card.name for card in cards
 #					msg.send botresponse
 				msg.send list.name for list in data
@@ -83,26 +84,26 @@ module.exports = (robot) ->
 		board_name = msg.match[1]
 		user = msg.message.user
 		trellotoken = trello_token
-		t = new Trello trello_key, trellotoken
-		t.get '/1/members/me/boards/', (err, data) ->
+		trello = new Trello trello_key, trellotoken
+		trello.get '/1/members/me/boards/', (err, data) ->
 			for board in data
 				if board.name == board_name
 					user.trelloboard = board.id
 					msg.reply "op #{board.name} staan de volgende lijsten:"
-					t.get "/1/boards/#{board.id}/lists", (err, data) ->
+					trello.get "/1/boards/#{board.id}/lists", (err, data) ->
 						msg.send list.name for list in data
 
 	robot.respond /trello lists/i, (msg) ->
 		user = msg.message.user
 		trellotoken = user.trellotoken
 		trelloboard = user.trelloboard
-		t = new Trello trello_key, trellotoken
+		trello = new Trello trello_key, trellotoken
 		if !trellotoken
 			msg.reply "You have no trellotoken"
 		else if !trelloboard
 			msg.reply "You have no trelloboard"
 		else
-			t.get "/1/boards/#{trelloboard}/lists", (err, data) ->
+			trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
 				msg.send list.name for list in data
 
 
@@ -111,13 +112,13 @@ module.exports = (robot) ->
 		 user = msg.message.user
 		 trellotoken = user.trellotoken
 		 trelloboard = user.trelloboard
-		 t = new Trello trello_key, trellotoken
+		 trello = new Trello trello_key, trellotoken
 		 if !trellotoken
 			 msg.reply "You have no trellotoken"
 		 else if !trelloboard
 			 msg.reply "You have no trelloboard"
 		 else
-			 t.get "/1/boards/#{trelloboard}/lists", (err, data) ->
+			 trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
 				 for list in data
 					 if list.name == list_name
 						 user.trellolist = list.id
@@ -136,6 +137,6 @@ module.exports = (robot) ->
 		else if !trellolist
 			msg.reply "You don't seem to have a default trello list configured. Use \"trello my list is \" to do that"
 		else
-			t = new Trello trello_key, trellotoken
-			t.post "/1/lists/#{trellolist}/cards", { name: content }, (err, data) ->
+			trello = new Trello trello_key, trellotoken
+			trello.post "/1/lists/#{trellolist}/cards", { name: content }, (err, data) ->
 				msg.reply "Added to your list - #{data.url}"
