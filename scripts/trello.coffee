@@ -31,8 +31,6 @@ module.exports = (robot) ->
 	trello_key = process.env.HUBOT_TRELLO_KEY
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
 
-	trello = new Trello trello_key, trello_token
-
 	robot.respond /trello all the users/i, (msg) ->
 		theReply = "Here is who I know:\n"
 
