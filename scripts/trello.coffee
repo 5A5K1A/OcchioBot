@@ -93,7 +93,7 @@ module.exports = (robot) ->
 
 	robot.respond /trello lists/i, (msg) ->
 		user = msg.message.user
-		trellotoken = user.trellotoken
+		trellotoken = trello_token
 		trelloboard = user.trelloboard
 		trello = new Trello trello_key, trellotoken
 		if !trellotoken
@@ -108,7 +108,7 @@ module.exports = (robot) ->
 	 robot.respond /trello set my list to (.*)/i, (msg) ->
 		 list_name = msg.match[1]
 		 user = msg.message.user
-		 trellotoken = user.trellotoken
+		 trellotoken = trello_token
 		 trelloboard = user.trelloboard
 		 trello = new Trello trello_key, trellotoken
 		 if !trellotoken
@@ -126,7 +126,7 @@ module.exports = (robot) ->
 		content = msg.match[1]
 		user = msg.message.user
 		trelloboard = user.trelloboard
-		trellotoken = user.trellotoken
+		trellotoken = trello_token
 		trellolist = user.trellolist
 		if !trellotoken
 			msg.reply "You don't seem to have a trello token registered. Use \"trello get token\"."
