@@ -155,4 +155,4 @@ module.exports = (robot) ->
 		res.send "Hee, hallootjes @#{name}!"
 
 	robot.hear /wie (.*) vandaag op kantoor/i, (res) ->
-		res.send "Dan moet je even op het Trello bord kijken, of je kunt '/trello aanwezig' gebruiken."
+		res.send "Dan moet je even op het Trello bord kijken, of je kunt 'occhio trello aanwezig' gebruiken."
