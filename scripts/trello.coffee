@@ -64,7 +64,7 @@ module.exports = (robot) ->
 			console.log board for board in data
 			msg.send board.name for board in data
 
-	robot.respond /trello set my board to (.*)/i, (msg) ->
+	robot.respond /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
 		user = msg.message.user
 		trellotoken = trello_token
@@ -74,6 +74,8 @@ module.exports = (robot) ->
 				if board.name == board_name
 					user.trelloboard = board.id
 					msg.reply "Your trello board is set to #{board.name}"
+					t.get "/1/boards/#{board.id}/lists", (err, data) ->
+						msg.send list.name for list in data
 
 	robot.respond /trello lists/i, (msg) ->
 		user = msg.message.user
