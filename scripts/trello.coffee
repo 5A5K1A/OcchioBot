@@ -56,13 +56,28 @@ module.exports = (robot) ->
 
 		msg.reply("Ok, I have no idea who you are anymore.")
 
-	robot.respond /trello boards/i, (msg) ->
+#	robot.respond /trello boards/i, (msg) ->
+#		user = msg.message.user
+#		trellotoken = trello_token
+#		t = new Trello trello_key, trellotoken
+#		t.get '/1/members/me/boards/', (err,data) ->
+#			console.log board for board in data
+#			msg.send board.name for board in data
+
+	robot.respond /list aanwezig/i, (msg) ->
+		board_name = Aanwezigheid
 		user = msg.message.user
 		trellotoken = trello_token
 		t = new Trello trello_key, trellotoken
-		t.get '/1/members/me/boards/', (err,data) ->
-			console.log board for board in data
-			msg.send board.name for board in data
+		t.get '/1/members/me/boards/', (err, data) ->
+			for board in data
+				if board.name == board_name
+					user.trelloboard = board.id
+					msg.reply "Je zou het misschien nog even moeten checken, maar dit zegt het Trello-bord #{board.name}:"
+					t.get "/1/boards/#{board.id}/lists", (err, data) ->
+						msg.send list.name for list in data
+						t.get "/1/lists/#{list.id}/cards", (err, data) ->
+							msg.send card.name for card in data
 
 	robot.respond /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
@@ -73,7 +88,7 @@ module.exports = (robot) ->
 			for board in data
 				if board.name == board_name
 					user.trelloboard = board.id
-					msg.reply "Your trello board is set to #{board.name}"
+					msg.reply "op #{board.name} staan de volgende lijsten:"
 					t.get "/1/boards/#{board.id}/lists", (err, data) ->
 						msg.send list.name for list in data
 
