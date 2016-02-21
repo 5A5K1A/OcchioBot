@@ -99,21 +99,34 @@ module.exports = (robot) ->
 
 	beerz = ['Sure!', 'Lekker', 'Ja hoor...', 'Vooruit dan', 'Gezellig', 'Zeker']
 
+	drunkz = ['OK, nog eentje dan...', 'Heladijoo, heladijee', 'En we gaan nog niet naar huis, nog languh niet...', 'BURP']
+
 	robot.respond /bier?/i, (res) ->
 		# Get number of beers had (coerced to a number).
 		beersHad = robot.brain.get('totalBeers') * 1 or 0
 
-		if beersHad > 4
+		if beersHad > 10
+			res.send 'Zzz... Zzz...'
+
+		else if beersHad > 6
+			res.reply res.random drunkz
+			robot.brain.set 'totalBeers', beersHad+1
+
+		else if beersHad > 5
+			res.reply "Nee tnx, het is genoeg geweest voor vandaag."
+			robot.brain.set 'totalBeers', beersHad+1
+
+		else if beersHad > 4
 			res.reply "OMG, nu ben ik echt dronken..."
+			robot.brain.set 'totalBeers', beersHad+1
 
+		else if beersHad > 3
+			res.reply "Prima, maar dat is de laatste..."
+			robot.brain.set 'totalBeers', beersHad+1
 		else
-			if beersHad > 3
-				res.reply "Prima, maar dat is de laatste..."
-				robot.brain.set 'totalBeers', beersHad+1
-			else
-				res.reply res.random beerz
-				robot.brain.set 'totalBeers', beersHad+1
+			res.reply res.random beerz
+			robot.brain.set 'totalBeers', beersHad+1
 
-	robot.respond /sleep it off/i, (res) ->
+	robot.respond /ga slapen/i, (res) ->
 		robot.brain.set 'totalBeers', 0
-		res.reply 'Zzz... Zzz...'
+		res.send 'Zzz... Zzz... Zzz...'
