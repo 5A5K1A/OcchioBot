@@ -125,7 +125,7 @@ module.exports = (robot) ->
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
 			for card in data
 				aanwezig.push card.name
-		msg.send "De volgende mensen zijn op kantoor:\n" + aanwezig.join("\n")
+			msg.send "De volgende mensen zijn op kantoor:\n" + aanwezig.join("\n")
 
 	robot.hear /trello thuis/i, (msg) ->
 		user = msg.message.user
