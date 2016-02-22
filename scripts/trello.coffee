@@ -149,7 +149,7 @@ module.exports = (robot) ->
 		excuse = "still working on this... "
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
-			msg.send user + " (" + board_id + ")"
+			msg.send user.first_name + " (" + board_id + ")"
 			trello.get "/1/search?query=#{user}&idBoards=#{board_id}", (err, data) ->
 				for card in data
 					msg.send card.name
