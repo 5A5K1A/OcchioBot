@@ -142,17 +142,19 @@ module.exports = (robot) ->
 
 	robot.hear /^trello set me to (.*)/i, (msg) ->
 		state = msg.match[1]
+		user = msg.message.user
+		excuse = "still working on this... "
 		if state is "aanwezig"
-			msg.reply "set state to #{state} (aanwezig)"
+			msg.reply excuse + "set state to #{state} (aanwezig)"
 		else if state is "afwezig"
-			msg.reply "set state to #{state} (afwezig)"
+			msg.reply excuse + "set state to #{state} (afwezig)"
 		else if state is "thuis"
-			msg.reply "set state to #{state} (thuis)"
+			msg.reply excuse + "set state to #{state} (thuis)"
 		else
-			msg.send "Ik begrijp je niet.\nMaak een keuze uit\n" +
-				"`trello set me to aanwezig`,\n" +
-				"`trello set me to afwezig` of\n" +
-				"`trello set me to thuis`\n"
+			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
+				"`trello set me to aanwezig`, " +
+				"`trello set me to afwezig` of " +
+				"`trello set me to thuis`"
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
