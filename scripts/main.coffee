@@ -16,8 +16,6 @@
 #   saskia@occhio
 
 module.exports = (robot) ->
-	Slack = require 'hubot-slack'
-	slack_token = process.env.HUBOT_SLACK_TOKEN
 
 ##### robot hears ... #####
 	robot.hear /^hubot? (.+)/i, (res) ->
@@ -141,8 +139,7 @@ module.exports = (robot) ->
 		users = robot.brain.usersForFuzzyName(name)
 		if users.length is 1
 			user = users[0]
-			slack = new Slack slack_token
-			slack.get "https://slack.com/api/users.info?user=#{user}", (err, data) ->
+			get "https://slack.com/api/users.info?user=#{user}", (err, data) ->
 				realname = data.profile.real_name
 				email = data.profile.email
 
