@@ -139,7 +139,7 @@ module.exports = (robot) ->
 		users = robot.brain.usersForFuzzyName(name)
 		if users.length is 1
 			user = users[0]
-			get "https://slack.com/api/users.info?user=#{user}", (err, data) ->
+			get "/users.info?user=#{user}", (err, data) ->
 				realname = data.profile.real_name
 				email = data.profile.email
 
