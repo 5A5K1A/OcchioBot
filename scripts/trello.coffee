@@ -125,15 +125,20 @@ module.exports = (robot) ->
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
 			for card in data
 				aanwezig.push card.name
-			msg.send "De volgende mensen zijn op kantoor:\n" + aanwezig.join("\n")
+			msg.send "De volgende mensen zijn op kantoor:\n" +
+				aanwezig.join("\n")
 
 	robot.hear /trello thuis/i, (msg) ->
+		msg.send "Ik zal eens even voor je op het Trello bord kijken."
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
-		msg.send "Deze collega's werken vandaag thuis:\n"
+		thuis = []
 		trello.get "/1/lists/565eb0554688609aecd8948a/cards", (err, data) ->
-			msg.send "* #{card.name}\n" for card in data
+			for card in data
+				thuis.push "* #{card.name}"
+			msg.send "Deze collega's werken vandaag thuis:\n" +
+				thuis.join("\n")
 
 	robot.hear /trello me (.*)/i, (msg) ->
 		content = msg.match[1]
