@@ -68,7 +68,7 @@ module.exports = (robot) ->
 			for board in data
 				if board.name == board_name
 					user.trelloboard = board.id
-					msg.reply "op #{board.name} staan de volgende lijsten:"
+					msg.reply "op #{board.name} (#{board.id}) staan de volgende lijsten:"
 					trello.get "/1/boards/#{board.id}/lists", (err, data) ->
 						msg.send list.name for list in data
 
@@ -143,13 +143,19 @@ module.exports = (robot) ->
 	robot.hear /^trello set me to (.*)/i, (msg) ->
 		state = msg.match[1]
 		user = msg.message.user
+		trellotoken = trello_token
+		trello = new Trello trello_key, trellotoken
 		excuse = "still working on this... "
 		if state is "aanwezig"
-			msg.reply excuse + "set state to #{state} (aanwezig)"
+			list_id = '565eb03ef6a6e23e7d04219b'
+			trello.get "/1/search?idBoards=#{123}", (err, data) ->
+			msg.reply excuse + "set state to #{state}"
 		else if state is "afwezig"
-			msg.reply excuse + "set state to #{state} (afwezig)"
+			list_id = '565eb04fe98a114dc96018ab'
+			msg.reply excuse + "set state to #{state}"
 		else if state is "thuis"
-			msg.reply excuse + "set state to #{state} (thuis)"
+			list_id = '565eb0554688609aecd8948a'
+			msg.reply excuse + "set state to #{state}"
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
 				"`trello set me to aanwezig`, " +
