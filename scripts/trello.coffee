@@ -145,10 +145,13 @@ module.exports = (robot) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
+		board_id = '565eb03adfd83c6f053bd88a'
 		excuse = "still working on this... "
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
-			trello.get "/1/search?idBoards=#{123}", (err, data) ->
+			trello.get "/1/search?query=#{user}&idBoards=#{board_id}", (err, data) ->
+				for card in data
+					msg.send card.name
 			msg.reply excuse + "set state to #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
