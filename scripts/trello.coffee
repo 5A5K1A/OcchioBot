@@ -152,7 +152,7 @@ module.exports = (robot) ->
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
 			msg.send user_search + " (" + board_id + ")"
-			trello.get "/1/search?query=#{user_search}&idBoards=#{board_id}", (err, data) ->
+			trello.get "/1/search?card_fields=#{user_search}&idBoards=#{board_id}", (err, data) ->
 				for card in data
 					msg.send card.name + excuse + "set state to #{state}"
 					msg.reply excuse + "set state to #{state}"
