@@ -143,7 +143,8 @@ module.exports = (robot) ->
 	robot.hear /^trello set me to (.*)/i, (msg) ->
 		state = msg.match[1]
 		user = msg.message.user
-		user_search = user.real_name.substr(0,user.real_name.indexOf(' '));
+		real_name = user.real_name
+		user_search = real_name.split(' ')[0]
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
