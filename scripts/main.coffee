@@ -161,4 +161,4 @@ module.exports = (robot) ->
 		robot.logger.error "DOES NOT COMPUTE"
 
 		if res?
-			res.reply "Computer says noohoo..."
+			res.reply "Computer says noo...\nhttps://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"
