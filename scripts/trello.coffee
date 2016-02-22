@@ -141,13 +141,13 @@ module.exports = (robot) ->
 				thuis.join("\n")
 
 	robot.hear /^trello set me to (.*)/i, (msg) ->
-		state = res.match[1]
+		state = msg.match[1]
 		if state is "aanwezig"
-			res.reply "set state to #{state} (aanwezig)"
+			msg.reply "set state to #{state} (aanwezig)"
 		else if state is "afwezig"
-			res.reply "set state to #{state} (afwezig)"
+			msg.reply "set state to #{state} (afwezig)"
 		else if state is "thuis"
-			res.reply "set state to #{state} (thuis)"
+			msg.reply "set state to #{state} (thuis)"
 		else
 			msg.send "Ik begrijp je niet.\nMaak een keuze uit\n" +
 				"`trello set me to aanwezig`,\n" +
