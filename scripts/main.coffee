@@ -2,12 +2,12 @@
 #   Starter scripts for you to examine and try out.
 #
 # Commands:
-#   hubot bier(tje) - domibo fun
-#   hubot ga slapen
+#   hubot bier(tje) - domibo fun ;-p
+#   hubot ga slapen - stuur @occhio naar bed
 #   hubot what is the answer to the ultimate question of life - the answer to the ultimate question of life
-#   wie is vandaag op kantoor
-#   wie is occhio
-#   hubot wie is <user>
+#   wie is vandaag op kantoor - verwijzing naar Trello board 'Aanwezigheid'
+#   wie is occhio - introductie van @occhio
+#   hubot wie is <user> - gegevens <user>
 #
 # Notes:
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md

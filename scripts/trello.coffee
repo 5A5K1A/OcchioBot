@@ -8,11 +8,11 @@
 #   HUBOT_TRELLO_KEY - your trello developer key
 #
 # Commands:
-#   hubot trello get board <board> - get the specified trello board
-#   hubot trello lists - list your trello lists on the default board
-#   hubot trello set my list to <list> - set your default list
-#   hubot trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
-#   hubot trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
+#   trello get board <board> - get the specified Trello board
+#   trello lists - list your trello lists on the default board
+#   trello set my list to <list> - set your default list
+#   trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
+#   trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
 #
 # Notes:
 #   Currently cards can only be added to your default list/board although
@@ -27,7 +27,7 @@ module.exports = (robot) ->
 	trello_key = process.env.HUBOT_TRELLO_KEY
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
 
-	robot.respond /trello all the users/i, (msg) ->
+	robot.hear /trello all the users/i, (msg) ->
 		theReply = "Here is who I know:\n"
 
 		for own key, user of robot.brain.data.users
@@ -36,23 +36,23 @@ module.exports = (robot) ->
 
 		msg.send theReply
 
-	robot.respond /trello get token/, (msg) ->
+	robot.hear /trello get token/, (msg) ->
 		msg.send "Get a token from https://trello.com/1/authorize?key=#{trello_key}&name=cicsbot&expiration=30days&response_type=token&scope=read,write"
 		msg.send "Then send it back to me as \"trello add token <token>\""
 
-	robot.respond /trello add token ([a-f0-9]+)/i, (msg) ->
+	robot.hear /trello add token ([a-f0-9]+)/i, (msg) ->
 
 		trellotoken = msg.match[1]
 		msg.message.user.trellotoken = trellotoken
 		msg.send "Ok, your token is registered"
 
-	robot.respond /trello forget me/i, (msg) ->
+	robot.hear /trello forget me/i, (msg) ->
 		user = msg.message.user
 		user.trellotoken  = null
 
 		msg.reply("Ok, I have no idea who you are anymore.")
 
-#	robot.respond /trello boards/i, (msg) ->
+#	robot.hear /trello boards/i, (msg) ->
 #		user = msg.message.user
 #		trellotoken = trello_token
 #		trello = new Trello trello_key, trellotoken
@@ -60,7 +60,7 @@ module.exports = (robot) ->
 #			console.log board for board in data
 #			msg.send board.name for board in data
 
-	robot.respond /trello list aanwezig/i, (msg) ->
+	robot.hear /trello list aanwezig/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
@@ -74,7 +74,7 @@ module.exports = (robot) ->
 			#msg.send theReply
 
 
-	robot.respond /trello get board (.*)/i, (msg) ->
+	robot.hear /trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
 		user = msg.message.user
 		trellotoken = trello_token
@@ -87,7 +87,7 @@ module.exports = (robot) ->
 					trello.get "/1/boards/#{board.id}/lists", (err, data) ->
 						msg.send list.name for list in data
 
-	robot.respond /trello lists/i, (msg) ->
+	robot.hear /trello lists/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trelloboard = user.trelloboard
@@ -101,7 +101,7 @@ module.exports = (robot) ->
 				msg.send "#{list.name} (#{list.id})" for list in data
 
 
-	robot.respond /trello set my list to (.*)/i, (msg) ->
+	robot.hear /trello set my list to (.*)/i, (msg) ->
 		list_name = msg.match[1]
 		user = msg.message.user
 		trellotoken = trello_token
@@ -116,15 +116,17 @@ module.exports = (robot) ->
 						user.trellolist = list.id
 						msg.reply "Your trello list is set to #{list.name}"
 
-	robot.respond /trello aanwezig/i, (msg) ->
+	robot.hear /trello aanwezig/i, (msg) ->
+		reply = "De volgende mensen zijn op kantoor:\n"
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
-		msg.send "De volgende mensen zijn op kantoor:\n"
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
-			msg.send "* #{card.name}\n" for card in data
+			reply += "* #{card.name}\n" for card in data
+			return reply
+		msg.send reply
 
-	robot.respond /trello thuis/i, (msg) ->
+	robot.hear /trello thuis/i, (msg) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
@@ -132,7 +134,7 @@ module.exports = (robot) ->
 		trello.get "/1/lists/565eb0554688609aecd8948a/cards", (err, data) ->
 			msg.send "* #{card.name}\n" for card in data
 
-	robot.respond /trello me (.*)/i, (msg) ->
+	robot.hear /trello me (.*)/i, (msg) ->
 		content = msg.match[1]
 		user = msg.message.user
 		trelloboard = user.trelloboard
