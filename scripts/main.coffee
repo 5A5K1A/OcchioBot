@@ -139,14 +139,13 @@ module.exports = (robot) ->
 		users = robot.brain.usersForFuzzyName(name)
 		if users.length is 1
 			user = users[0]
-			get "/users.info?user=#{user}", (err, data) ->
-				realname = data.profile.real_name
-				email = data.profile.email
+			realname = user.real_name
+			email = user.email
 
-				if email == undefined
-					email = "info@occhio.nl o.v.v. #{realname}"
+			if email == undefined
+				email = "info@occhio.nl o.v.v. #{realname}"
 
-				res.send "#{name} is gaat IRL onder de naam #{realname}\nen is te mailen op #{email}"
+			res.send "#{name} is gaat IRL onder de naam #{realname}\nen is te mailen op #{email}"
 
 ##### other stuff #####
 	robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
