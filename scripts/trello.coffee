@@ -117,14 +117,16 @@ module.exports = (robot) ->
 						msg.reply "Your trello list is set to #{list.name}"
 
 	robot.hear /trello aanwezig/i, (msg) ->
-		reply = "De volgende mensen zijn op kantoor:\n"
+		msg.send "Ik zal eens even voor je op het Trello bord kijken."
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
+			reply = "De volgende mensen zijn op kantoor:\n"
 			for card in data
-				return reply += "* #{card.name}\n"
-				msg.send reply
+				reply += "* #{card.name}\n"
+				return reply
+			msg.send reply
 
 	robot.hear /trello thuis/i, (msg) ->
 		user = msg.message.user
