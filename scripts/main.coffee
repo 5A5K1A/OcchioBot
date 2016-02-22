@@ -145,7 +145,8 @@ module.exports = (robot) ->
 			if email == undefined
 				email = "info@occhio.nl o.v.v. #{realname}"
 
-			res.send "#{name} is gaat IRL onder de naam #{realname}\nen is te mailen op #{email}"
+			res.send "#{name} is gaat IRL onder de naam #{realname}\n" +
+				"en is te mailen op #{email}"
 
 ##### other stuff #####
 	robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
@@ -161,4 +162,5 @@ module.exports = (robot) ->
 		robot.logger.error "DOES NOT COMPUTE"
 
 		if res?
-			res.reply "Computer says noo...\nhttps://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"
+			res.reply "Computer says noo...\n" +
+				"https://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"

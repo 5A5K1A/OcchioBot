@@ -128,7 +128,7 @@ module.exports = (robot) ->
 				reply[i] = "* #{card.name}\n"
 				i = i + 1
 				return reply
-			msg.send reply[0..reply.length-1]
+			msg.send reply
 
 	robot.hear /trello thuis/i, (msg) ->
 		user = msg.message.user
