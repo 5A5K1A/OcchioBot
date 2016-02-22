@@ -123,7 +123,8 @@ module.exports = (robot) ->
 		trello = new Trello trello_key, trellotoken
 		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
 			return reply += "* #{card.name}\n" for card in data
-				msg.send reply
+
+		msg.send reply
 
 	robot.hear /trello thuis/i, (msg) ->
 		user = msg.message.user
