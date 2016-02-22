@@ -117,27 +117,42 @@ module.exports = (robot) ->
 						msg.reply "Your trello list is set to #{list.name}"
 
 	robot.hear /trello aanwezig/i, (msg) ->
+		list_id = '565eb03ef6a6e23e7d04219b'
 		msg.send "Ik zal eens even voor je op het Trello bord kijken."
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		aanwezig = []
-		trello.get "/1/lists/565eb03ef6a6e23e7d04219b/cards", (err, data) ->
+		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
-				aanwezig.push card.name
+				aanwezig.push "* #{card.name}"
 			msg.send "De volgende mensen zijn op kantoor:\n" +
 				aanwezig.join("\n")
 
 	robot.hear /trello thuis/i, (msg) ->
+		list_id = '565eb0554688609aecd8948a'
 		msg.send "Ik zal eens even voor je op het Trello bord kijken."
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		thuis = []
-		trello.get "/1/lists/565eb0554688609aecd8948a/cards", (err, data) ->
+		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
 				thuis.push "* #{card.name}"
 			msg.send "Deze collega's werken vandaag thuis:\n" +
+				thuis.join("\n")
+
+	robot.hear /trello afwezig/i, (msg) ->
+		list_id = '565eb04fe98a114dc96018ab'
+		msg.send "Ik zal eens even voor je op het Trello bord kijken."
+		user = msg.message.user
+		trellotoken = trello_token
+		trello = new Trello trello_key, trellotoken
+		thuis = []
+		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
+			for card in data
+				thuis.push "* #{card.name}"
+			msg.send "Deze collega's werken vandaag niet:\n" +
 				thuis.join("\n")
 
 	robot.hear /trello me (.*)/i, (msg) ->
