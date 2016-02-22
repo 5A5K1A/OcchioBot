@@ -1,15 +1,23 @@
 # Description:
-#   Example scripts for you to examine and try out.
+#   Starter scripts for you to examine and try out.
+#
+# Commands:
+#   hubot bier(tje) - domibo fun
+#   hubot ga slapen
+#   hubot what is the answer to the ultimate question of life - the answer to the ultimate question of life
+#   wie is vandaag op kantoor
+#   wie is occhio
+#   hubot wie is <user>
 #
 # Notes:
-#   They are commented out by default, because most of them are pretty silly and
-#   wouldn't be useful and amusing enough for day to day huboting.
-#   Uncomment the ones you want to try and experiment with.
-#
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
+#
+# Author:
+#   saskia@occhio
 
 module.exports = (robot) ->
 
+##### robot hears ... #####
 	robot.hear /^hubot? (.+)/i, (res) ->
 		response = "Sorry, I'm a diva and only respond to #{robot.name}"
 		response += " or #{robot.alias}" if robot.alias
@@ -25,6 +33,22 @@ module.exports = (robot) ->
 	robot.hear /badger/i, (res) ->
 		res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
 
+	robot.hear /taart/i, (res) ->
+		res.emote "een versgebakken taart maken doet"
+
+	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
+		name = res.message.user.name
+		res.send "Hee, hallootjes @#{name}!"
+
+	robot.hear /doei/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
+		name = res.message.user.name
+		res.send "Superdoei @#{name}!"
+
+	robot.hear /wie (.*) vandaag op kantoor/i, (res) ->
+		res.send "Dan moet je even op het Trello bord (https://trello.com/b/6MvsMMx1/aanwezigheid) kijken,\n" +
+			"of je kunt `occhio trello aanwezig` gebruiken."
+
+##### robot responds (need to be called by name - occhio / @occhio) ... #####
 	robot.respond /open the (.*) doors/i, (res) ->
 		doorType = res.match[1]
 		if doorType is "pod bay"
@@ -32,18 +56,10 @@ module.exports = (robot) ->
 		else
 			res.reply "Opening #{doorType} doors"
 
-	robot.hear /I like pie/i, (res) ->
-		res.emote "makes a freshly baked pie"
-
-	lulz = ['lol', 'rofl', 'lmao']
-
-	robot.respond /lulz/i, (res) ->
-		res.send res.random lulz
-
 	robot.topic (res) ->
 		res.send "#{res.message.text}? Dat is een prima topic voor dit channel!"
 
-	enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hello friend.', 'Gotcha', 'I see you']
+	enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hallo vriend.', 'Gotcha', 'Ik zie je']
 	leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
 
 	robot.enter (res) ->
@@ -59,9 +75,9 @@ module.exports = (robot) ->
 			return
 		res.send "#{answer}, but what is the question?"
 
-	robot.respond /you are a little slow/, (res) ->
+	robot.respond /je bent (.*) traag/, (res) ->
 		setTimeout () ->
-			res.send "Who you calling 'slow'?"
+			res.send "Wie noem jij 'traag'?"
 		, 60 * 1000
 
 	annoyIntervalId = null
@@ -84,30 +100,11 @@ module.exports = (robot) ->
 		else
 			res.send "Not annoying you right now, am I?"
 
-
-	robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
-		room   = req.params.room
-		data   = JSON.parse req.body.payload
-		secret = data.secret
-
-		robot.messageRoom room, "I have a secret: #{secret}"
-
-		res.send 'OK'
-
-	robot.error (err, res) ->
-		robot.logger.error "DOES NOT COMPUTE"
-
-		if res?
-			res.reply "DOES NOT COMPUTE"
-
 	beerz = ['Sure!', 'Lekker', 'Ja hoor...', 'Vooruit dan', 'Gezellig', 'Zeker']
-
 	drunkz = ['OK, nog eentje dan...', 'Heladijoo, heladijee', 'En we gaan nog niet naar huis, nog languh niet...', 'BURP']
 
 	robot.respond /bier/i, (res) ->
-		# Get number of beers had (coerced to a number).
 		beersHad = robot.brain.get('totalBeers') * 1 or 0
-
 		name = res.message.user.name
 
 		if beersHad > 10
@@ -150,16 +147,18 @@ module.exports = (robot) ->
 
 			res.send "#{name} is gaat IRL onder de naam #{realname}\nen is te mailen op #{email}"
 
-	robot.hear /hallo/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
-		name = res.message.user.name
-		# This will execute no faster than once every hundred seconds
-		res.send "Hee, hallootjes @#{name}!"
+##### other stuff #####
+	robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
+		room   = req.params.room
+		data   = JSON.parse req.body.payload
+		secret = data.secret
 
-	robot.hear /doei/i, id: 'my-hello', rateLimits: {minPeriodMs: 100000}, (res) ->
-		name = res.message.user.name
-		# This will execute no faster than once every hundred seconds
-		res.send "Superdoei @#{name}!"
+		robot.messageRoom room, "I have a secret: #{secret}"
 
-	robot.hear /wie (.*) vandaag op kantoor/i, (res) ->
-		res.send "Dan moet je even op het Trello bord (https://trello.com/b/6MvsMMx1/aanwezigheid) kijken,\n" +
-			"of je kunt `occhio trello aanwezig` gebruiken."
+		res.send 'OK'
+
+	robot.error (err, res) ->
+		robot.logger.error "DOES NOT COMPUTE"
+
+		if res?
+			res.reply "Computer says noohoo..."

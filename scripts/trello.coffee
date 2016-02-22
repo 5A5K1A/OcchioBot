@@ -19,7 +19,7 @@
 #   this can be changed
 #
 # Author:
-#   beezly
+#   saskia@occhio
 
 module.exports = (robot) ->
 	Trello = require 'node-trello'
