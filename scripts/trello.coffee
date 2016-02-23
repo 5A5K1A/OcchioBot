@@ -8,11 +8,13 @@
 #   HUBOT_TRELLO_KEY - your trello developer key
 #
 # Commands:
+# 	- - TRELLO - -
 #   trello get board <board> - get the specified Trello board
 #   trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
 #   trello afwezig - get list 'AFWEZIG' from 'Aanwezigheid'
 #   trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
-#   trello set <Naam> to <state> - <Naam> is je naam zoals op de Trello kaart, <state> is `aanwezig`, `afwezig` of `thuis`
+#   trello set <Naam> to <state> - <Naam> zoals op de Trello kaart, <state> = `aanwezig` / `afwezig` / `thuis`
+#   - - TRELLO - -
 #
 # Notes:
 #   Currently cards can only be added to your default list/board although
