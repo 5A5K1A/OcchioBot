@@ -147,13 +147,15 @@ module.exports = (robot) ->
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
 		excuse = "still working on this... "
+		allcards = []
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
 			msg.send excuse + "set state of #{cardmatch} to #{state}\n" +
 				"(board_id #{board_id})"
-				trello.get "/boards/#{board_id}/cards", (err, data) ->
-					for card in data
-						msg.send card.name				
+			trello.get "/boards/#{board_id}/cards", (err, data) ->
+				for card in data
+					allcards.push "* #{card.name}"
+				msg.send allcards.join("\n")
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
 			msg.reply excuse + "set state of #{cardmatch} to #{state}\n" +
