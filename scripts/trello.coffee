@@ -140,8 +140,10 @@ module.exports = (robot) ->
 			msg.send "Deze collega's werken vandaag niet:\n" +
 				thuis.join("\n")
 
-	robot.hear /^trello set me to (.*)/i, (msg) ->
-		state = msg.match[1]
+	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
+		matchone = msg.match[1]
+		msg.send matchone
+		state = msg.match[2]
 		user = msg.message.user
 		real_name = user.real_name
 		user_search = real_name.split(' ')[0]
