@@ -83,6 +83,7 @@ module.exports = (robot) ->
 						msg.reply "Your trello list is set to #{list.name}"
 
 	robot.hear /^trello aanwezig/i, (msg) ->
+		msg.send "#{new Date()}"
 		list_id = '565eb03ef6a6e23e7d04219b'
 		msg.send "Ik zal eens even voor je op het Trello bord kijken."
 		user = msg.message.user
