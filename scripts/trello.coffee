@@ -162,16 +162,23 @@ module.exports = (robot) ->
 		if card_match is 'all'
 			for card in all_cards
 				title = card.name
-				if title.match(/^!/) is null
+				if title.match(/^↓/) is null
 					selection.push card
 			card_match = 'iedereen'
+			msg.send card_match
 		else if card_match not in all_names
 			msg.send "Helaas, ik heb geen Trello card kunnen vinden met #{card_match}"
 		else
+			msg.send "er is een kaart met deze naam"
 			for card in all_cards
 				if card_match is card.name
 					selection.push card
-		if selection.length is not 0
+		if selection.length is 0
+			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
+				"`trello set Naam to aanwezig`, " +
+				"`trello set Naam to afwezig` of " +
+				"`trello set Naam to thuis`"
+		else
 			if state is "aanwezig"
 				list_id = '565eb03ef6a6e23e7d04219b'
 				moveCards(selection, list_id)
@@ -184,11 +191,6 @@ module.exports = (robot) ->
 				list_id = '565eb0554688609aecd8948a'
 				moveCards(selection, list_id)
 				msg.send "Check! #{card_match} succes met #{state} werken."
-		else
-			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
-				"`trello set Naam to aanwezig`, " +
-				"`trello set Naam to afwezig` of " +
-				"`trello set Naam to thuis`"
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
