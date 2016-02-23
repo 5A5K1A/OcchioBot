@@ -141,7 +141,7 @@ module.exports = (robot) ->
 				thuis.join("\n")
 
 	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
-		cardname = msg.match[1]
+		cardmatch = msg.match[1]
 		state = msg.match[2]
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
@@ -149,21 +149,21 @@ module.exports = (robot) ->
 		excuse = "still working on this... "
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
-			msg.send excuse + "set state of #{cardname} to #{state} " +
-				cardname + " (board_id " + board_id + ")"
+			msg.send excuse + "set state of #{cardmatch} to #{state}\n" +
+				"(board_id #{board_id})"
 			trello.get "/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					msg.send card.name
-					if card.name is cardname
+					if card.name is cardmatch
 						msg.send "#{card.name} (#{card.idList} - #{card.id})"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
-			msg.reply excuse + "set state of #{cardname} to #{state} " +
-				cardname + " (board_id " + board_id + ")"
+			msg.reply excuse + "set state of #{cardmatch} to #{state}\n" +
+				"(board_id #{board_id})"
 		else if state is "thuis"
 			list_id = '565eb0554688609aecd8948a'
-			msg.reply excuse + "set state of #{cardname} to #{state} " +
-				cardname + " (board_id " + board_id + ")"
+			msg.reply excuse + "set state of #{cardmatch} to #{state}\n" +
+				"(board_id #{board_id})"
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
 				"`trello set me to aanwezig`, " +
