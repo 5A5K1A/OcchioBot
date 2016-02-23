@@ -155,7 +155,8 @@ module.exports = (robot) ->
 				"(board_id #{board_id})"
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
-					allcards.push "* #{card.name} - #{card.idList}"
+					if cardmatch is card.name
+						allcards.push "* #{card.name} - #{card.idList}"
 				msg.send allcards.join("\n")
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
