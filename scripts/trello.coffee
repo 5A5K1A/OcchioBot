@@ -150,9 +150,7 @@ module.exports = (robot) ->
 
 	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
 		card_match = msg.match[1]
-		msg.send card_match
 		state = msg.match[2]
-		msg.send state
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
@@ -162,6 +160,7 @@ module.exports = (robot) ->
 			all_names = all_cards.map (trello_card) -> trello_card.name
 			msg.send all_names.join(", ")
 		if card_match is 'all'
+			msg.send card_match
 			for card in all_cards
 				title = card.name
 				if title.match(/^↓/) is null
