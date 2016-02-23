@@ -126,7 +126,7 @@ module.exports = function (robot) {
             data.forEach(function (board) {
                 answer.push("* " + board.name);
             });
-            msg.send answer.join('\n');
+            msg.send(answer.join('\n'));
         });
     });
 
