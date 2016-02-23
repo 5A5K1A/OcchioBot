@@ -149,9 +149,10 @@ module.exports = (robot) ->
 				thuis.join("\n")
 
 	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
-		user = msg.message.user
 		card_match = msg.match[1]
+		msg.send card_match
 		state = msg.match[2]
+		msg.send state
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
