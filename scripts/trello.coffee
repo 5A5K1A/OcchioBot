@@ -29,11 +29,6 @@ module.exports = (robot) ->
 	trello_key = process.env.HUBOT_TRELLO_KEY
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
 
-	moveCards = (cards, list_id) ->
-		for card in cards
-			trello.put "/1/cards/#{card.id}/idList?value=#{list_id}", (err, data) ->
-				return
-
 	robot.hear /^trello all the users/i, (msg) ->
 		theReply = "Here is who I know:\n"
 
@@ -149,52 +144,41 @@ module.exports = (robot) ->
 				thuis.join("\n")
 
 	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
-		card_match = msg.match[1]
+		user = msg.message.user
+		cardmatch = msg.match[1]
 		state = msg.match[2]
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
-		selection = []
-		trello.get "/1/boards/#{board_id}/cards", (err, data) ->
-			all_cards = data
-			all_names = all_cards.map (trello_card) -> trello_card.name
-			msg.send all_names.join(", ")
-		if card_match is 'all'
-			msg.send card_match
-			for card in all_cards
-				msg.send card.name
-				title = card.name
-				if title.match(/^↓/) is null
-					selection.push card
-			card_match = 'iedereen'
-			msg.send card_match
-		else if card_match not in all_names
-			msg.send card_match
-			msg.send "Helaas, ik heb geen Trello card kunnen vinden met #{card_match}"
+		allcards = []
+		if state is "aanwezig"
+			list_id = '565eb03ef6a6e23e7d04219b'
+			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
+				for card in data
+					if cardmatch is 'all'
+
+					else if cardmatch is card.name
+						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+						msg.send "Check! #{cardmatch} is nu #{state}"
+		else if state is "afwezig"
+			list_id = '565eb04fe98a114dc96018ab'
+			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
+				for card in data
+					if cardmatch is card.name
+						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+						msg.send "Check! #{cardmatch} staat nu op #{state}"
+		else if state is "thuis"
+			list_id = '565eb0554688609aecd8948a'
+			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
+				for card in data
+					if cardmatch is card.name
+						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
-			msg.send card_match
-			msg.send "er is een kaart met deze naam"
-			for card in all_cards
-				if card_match is card.name
-					selection.push card
-		if selection.length is 0
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
 				"`trello set Naam to aanwezig`, " +
 				"`trello set Naam to afwezig` of " +
 				"`trello set Naam to thuis`"
-		else
-			if state is "aanwezig"
-				list_id = '565eb03ef6a6e23e7d04219b'
-				moveCards(selection, list_id)
-				msg.send "Check! #{card_match} is nu #{state}"
-			else if state is "afwezig"
-				list_id = '565eb04fe98a114dc96018ab'
-				moveCards(selection, list_id)
-				msg.send "Check! #{card_match} staat nu op #{state}"
-			else if state is "thuis"
-				list_id = '565eb0554688609aecd8948a'
-				moveCards(selection, list_id)
-				msg.send "Check! #{card_match} succes met #{state} werken."
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
