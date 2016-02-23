@@ -141,12 +141,8 @@ module.exports = (robot) ->
 				thuis.join("\n")
 
 	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
-		matchone = msg.match[1]
-		msg.send matchone
+		cardname = msg.match[1]
 		state = msg.match[2]
-		user = msg.message.user
-		real_name = user.real_name
-		user_search = real_name.split(' ')[0]
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
@@ -154,11 +150,11 @@ module.exports = (robot) ->
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
 			msg.send excuse + "set state to #{state} " +
-				user_search + " (board_id " + board_id + ")"
+				cardname + " (board_id " + board_id + ")"
 			trello.get "/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					msg.send card.name
-					if card.name is user_search
+					if card.name is cardname
 						msg.send "#{card.name} (#{card.idList} - #{card.id})"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
