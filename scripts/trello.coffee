@@ -28,28 +28,18 @@ module.exports = (robot) ->
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
 
 	robot.hear /^trello get token/, (msg) ->
-		msg.send "Get a token from https://trello.com/1/authorize?key=#{trello_key}&name=occhiobot&expiration=never&response_type=token&scope=read,write"
-		msg.send "Then send it back to me as \"trello add token <token>\""
+		msg.send "Get a token from https://trello.com/1/authorize?key=#{trello_key}&name=Occhio%20Bot&expiration=never&response_type=token&scope=read,write" +
+			"Then send it back to me as `trello add token <token>`"
 
 	robot.hear /^trello add token ([a-f0-9]+)/i, (msg) ->
-
 		trellotoken = msg.match[1]
 		msg.message.user.trellotoken = trellotoken
 		msg.send "Ok, your token is registered"
 
 	robot.hear /^trello forget me/i, (msg) ->
 		user = msg.message.user
-		user.trellotoken  = null
-
+		user.trellotoken = null
 		msg.reply("Ok, I have no idea who you are anymore.")
-
-#	robot.hear /^trello boards/i, (msg) ->
-#		user = msg.message.user
-#		trellotoken = trello_token
-#		trello = new Trello trello_key, trellotoken
-#		trello.get '/1/organizations/occhionl/boards/public', (err,data) ->
-#			console.log board for board in data
-#			msg.send board.name for board in data
 
 	robot.hear /^trello get board (.*)/i, (msg) ->
 		board_name = msg.match[1]
@@ -70,13 +60,12 @@ module.exports = (robot) ->
 		trelloboard = user.trelloboard
 		trello = new Trello trello_key, trellotoken
 		if !trellotoken
-			msg.reply "You have no trellotoken"
+			msg.reply "You have no trellotoken" + "\nUse `trello get token` to get a token."
 		else if !trelloboard
-			msg.reply "You have no trelloboard"
+			msg.reply "You have no trelloboard" + "\nUse `trello get board <boardname>` to set a board."
 		else
 			trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
 				msg.send "#{list.name} (#{list.id})" for list in data
-
 
 	robot.hear /^trello set my list to (.*)/i, (msg) ->
 		list_name = msg.match[1]
@@ -85,7 +74,7 @@ module.exports = (robot) ->
 		trelloboard = user.trelloboard
 		trello = new Trello trello_key, trellotoken
 		if !trelloboard
-			msg.reply "You have no trelloboard"
+			msg.reply "You have no trelloboard" + "\nUse `trello get board <boardname>` to set a board."
 		else
 			trello.get "/1/boards/#{trelloboard}/lists", (err, data) ->
 				for list in data
@@ -102,7 +91,10 @@ module.exports = (robot) ->
 		aanwezig = []
 		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
-				aanwezig.push "* #{card.name}"
+				if card.name.match(/^↓/) is null
+					aanwezig.push "* #{card.name}"
+				else
+					aanwezig.push card.name
 			msg.send "De volgende mensen zijn op kantoor:\n" +
 				aanwezig.join("\n")
 
@@ -115,7 +107,10 @@ module.exports = (robot) ->
 		thuis = []
 		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
-				thuis.push "* #{card.name}"
+				if card.name.match(/^↓/) is null
+					thuis.push "* #{card.name}"
+				else
+					thuis.push card.name
 			msg.send "Deze collega's werken vandaag thuis:\n" +
 				thuis.join("\n")
 
