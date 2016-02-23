@@ -14,6 +14,7 @@
 #   trello afwezig - get list 'AFWEZIG' from 'Aanwezigheid'
 #   trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
 #   trello set <Naam> to <state> - <Naam> zoals op de Trello kaart, <state> = `aanwezig` / `afwezig` / `thuis`
+#   trello set all to afwezig - zet iedereen op afwezig
 #   - - TRELLO - -
 #
 # Notes:
@@ -151,25 +152,25 @@ module.exports = (robot) ->
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
 		allcards = []
-		num = 0
 		if state is "aanwezig"
 			list_id = '565eb03ef6a6e23e7d04219b'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
-					if cardmatch is 'all'
-						if card.name.match(/^↓/) is null
-							num = num + 1
-							msg.send num + ' all ' + card.name
-					else if cardmatch is card.name
+					if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 						msg.send "Check! #{cardmatch} is nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
-					if cardmatch is card.name
+					if cardmatch is 'all'
+						if card.name.match(/^↓/) is null
+							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 						msg.send "Check! #{cardmatch} staat nu op #{state}"
+				if cardmatch is 'all'
+					msg.send "Ja hoor, iedereen staat nu op #{state}"
 		else if state is "thuis"
 			list_id = '565eb0554688609aecd8948a'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
