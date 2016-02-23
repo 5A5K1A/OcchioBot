@@ -89,14 +89,19 @@ module.exports = (robot) ->
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		aanwezig = []
+		num = 0
 		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
 				if card.name.match(/^↓/) is null
 					aanwezig.push "* #{card.name}"
+					num = num + 1
 				else
 					aanwezig.push card.name
-			msg.send "De volgende mensen zijn op kantoor:\n" +
-				aanwezig.join("\n")
+			if num is 0
+				msg.send "Er zijn nu geen mensen op kantoor."
+			else
+				msg.send "De volgende #{num} mensen zijn op kantoor:\n" +
+					aanwezig.join("\n")
 
 	robot.hear /^trello thuis/i, (msg) ->
 		list_id = '565eb0554688609aecd8948a'
