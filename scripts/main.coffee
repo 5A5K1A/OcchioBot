@@ -2,6 +2,8 @@
 #   Starter scripts for you to examine and try out.
 #
 # Commands:
+#   dance - let's dance
+#   DANCE - party time :-)
 #   hubot bier(tje) - domibo fun ;-p
 #   hubot ga slapen - stuur @occhio naar bed
 #   hubot what is the answer to the ultimate question of life - the answer to the ultimate question of life
@@ -48,93 +50,101 @@ module.exports = (robot) ->
 		res.send "Dan moet je even op het Trello bord (https://trello.com/b/6MvsMMx1/aanwezigheid) kijken,\n" +
 			"of je kunt `occhio trello aanwezig` gebruiken."
 
-##### robot responds (need to be called by name - occhio / @occhio) ... #####
-	robot.respond /open the (.*) doors/i, (res) ->
-		doorType = res.match[1]
-		if doorType is "pod bay"
-			res.reply "I'm afraid I can't let you do that."
-		else
-			res.reply "Opening #{doorType} doors"
+	dance = [":D|-<", ":D/-<", ":D\-<", ":D>-<"]
+	robot.hear /dance\b/, (msg) ->
+		msg.emote "gets up and #{msg.random dance}"
 
-	robot.topic (res) ->
-		res.send "#{res.message.text}? Dat is een prima topic voor dit channel!"
+	robot.hear /DANCE\b/, (msg) ->
+		for move in dance
+			msg.emote "dances #{move}"
+
+##### robot responds (need to be called by name - occhio / @occhio) ... #####
+	robot.respond /open the (.*) doors/i, (msg) ->
+		doorType = msg.match[1]
+		if doorType is "pod bay"
+			msg.reply "I'm afraid I can't let you do that."
+		else
+			msg.reply "Opening #{doorType} doors"
+
+	robot.topic (msg) ->
+		msg.send "#{msg.message.text}? Dat is een prima topic voor dit channel!"
 
 	enterReplies = ['Hi', 'Target Acquired', 'Firing', 'Hallo vriend.', 'Gotcha', 'Ik zie je']
 	leaveReplies = ['Are you still there?', 'Target lost', 'Searching']
 
-	robot.enter (res) ->
-		res.send res.random enterReplies
-	robot.leave (res) ->
-		res.send res.random leaveReplies
+	robot.enter (msg) ->
+		msg.send msg.random enterReplies
+	robot.leave (msg) ->
+		msg.send msg.random leaveReplies
 
 	answer = process.env.HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING or 42
 
-	robot.respond /what is the answer to the ultimate question of life/, (res) ->
+	robot.respond /what is the answer to the ultimate question of life/, (msg) ->
 		unless answer?
-			res.send "Missing HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING in evironment: please set and try again"
+			msg.send "Missing HUBOT_ANSWER_TO_THE_ULTIMATE_QUESTION_OF_LIFE_THE_UNIVERSE_AND_EVERYTHING in evironment: please set and try again"
 			return
-		res.send "#{answer}, but what is the question?"
+		msg.send "#{answer}, but what is the question?"
 
-	robot.respond /je bent (.*) traag/, (res) ->
+	robot.respond /je bent (.*) traag/, (msg) ->
 		setTimeout () ->
-			res.send "Wie noem jij 'traag'?"
+			msg.send "Wie noem jij 'traag'?"
 		, 60 * 1000
 
 	annoyIntervalId = null
 
-	robot.respond /annoy me/, (res) ->
+	robot.respond /annoy me/, (msg) ->
 		if annoyIntervalId
-			res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
+			msg.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
 			return
 
-			res.send "Hey, want to hear the most annoying sound in the world?"
+			msg.send "Hey, want to hear the most annoying sound in the world?"
 			annoyIntervalId = setInterval () ->
-					res.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
+					msg.send "AAAAAAAAAAAEEEEEEEEEEEEEEEEEEEEEEEEIIIIIIIIHHHHHHHHHH"
 			, 1000
 
-	robot.respond /unannoy me/, (res) ->
+	robot.respond /unannoy me/, (msg) ->
 		if annoyIntervalId
-			res.send "GUYS, GUYS, GUYS!"
+			msg.send "GUYS, GUYS, GUYS!"
 			clearInterval(annoyIntervalId)
 			annoyIntervalId = null
 		else
-			res.send "Not annoying you right now, am I?"
+			msg.send "Not annoying you right now, am I?"
 
 	beerz = ['Sure!', 'Lekker', 'Ja hoor...', 'Vooruit dan', 'Gezellig', 'Zeker']
 	drunkz = ['OK, nog eentje dan...', 'Heladijoo, heladijee', 'En we gaan nog niet naar huis, nog languh niet...', 'BURP']
 
-	robot.respond /bier/i, (res) ->
+	robot.respond /bier/i, (msg) ->
 		beersHad = robot.brain.get('totalBeers') * 1 or 0
-		name = res.message.user.name
+		name = msg.message.user.name
 
 		if beersHad > 10
-			res.send 'Zzz... Zzz...'
+			msg.send 'Zzz... Zzz...'
 
 		else if beersHad > 6
-			res.reply res.random drunkz
+			msg.reply msg.random drunkz
 			robot.brain.set 'totalBeers', beersHad+1
 
 		else if beersHad > 5
-			res.reply "Nee tnx, het is genoeg geweest voor vandaag."
+			msg.reply "Nee tnx, het is genoeg geweest voor vandaag."
 			robot.brain.set 'totalBeers', beersHad+1
 
 		else if beersHad > 4
-			res.reply "OMG, nu ben ik echt dronken..."
+			msg.reply "OMG, nu ben ik echt dronken..."
 			robot.brain.set 'totalBeers', beersHad+1
 
 		else if beersHad > 3
-			res.send "Prima @#{name}, maar dat is de laatste..."
+			msg.send "Prima @#{name}, maar dat is de laatste..."
 			robot.brain.set 'totalBeers', beersHad+1
 		else
-			res.reply res.random beerz
+			msg.reply msg.random beerz
 			robot.brain.set 'totalBeers', beersHad+1
 
-	robot.respond /ga slapen/i, (res) ->
+	robot.respond /ga slapen/i, (msg) ->
 		robot.brain.set 'totalBeers', 0
-		res.send 'Zzz... Zzz... Zzz...'
+		msg.send 'Zzz... Zzz... Zzz...'
 
-	robot.respond /wie is @?([\w .\-]+)\?*$/i, (res) ->
-		name = res.match[1].trim()
+	robot.respond /wie is @?([\w .\-]+)\?*$/i, (msg) ->
+		name = msg.match[1].trim()
 
 		users = robot.brain.usersForFuzzyName(name)
 		if users.length is 1
@@ -145,22 +155,22 @@ module.exports = (robot) ->
 			if email == undefined
 				email = "info@occhio.nl o.v.v. #{realname}"
 
-			res.send "#{name} is gaat IRL onder de naam #{realname}\n" +
+			msg.send "#{name} is gaat IRL onder de naam #{realname}\n" +
 				"en is te mailen op #{email}"
 
 ##### other stuff #####
-	robot.router.post '/hubot/chatsecrets/:room', (req, res) ->
+	robot.router.post '/hubot/chatsecrets/:room', (req, msg) ->
 		room   = req.params.room
 		data   = JSON.parse req.body.payload
 		secret = data.secret
 
 		robot.messageRoom room, "I have a secret: #{secret}"
 
-		res.send 'OK'
+		msg.send 'OK'
 
-	robot.error (err, res) ->
+	robot.error (err, msg) ->
 		robot.logger.error "DOES NOT COMPUTE"
 
-		if res?
-			res.reply "Computer says noo...\n" +
+		if msg?
+			msg.reply "Computer says noo...\n" +
 				"https://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"

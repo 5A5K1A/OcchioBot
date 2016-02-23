@@ -10,7 +10,5 @@
 	"hubot-thesimpsons",
 	"hubot-wakeup",
 	"node-trello",
-	"hubot-dance",
-	"hubot-reaction",
-	"hubot-darts"
+	"hubot-reaction"
 ]
