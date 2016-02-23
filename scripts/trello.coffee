@@ -158,7 +158,8 @@ module.exports = (robot) ->
 				for card in data
 					if cardmatch is 'all'
 						if card.name.match(/^↓/) is null
-							msg.send num + 1 + ' all'
+							num = num + 1
+							msg.send num + ' all'
 					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 						msg.send "Check! #{cardmatch} is nu #{state}"
