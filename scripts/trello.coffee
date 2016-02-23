@@ -156,21 +156,21 @@ module.exports = (robot) ->
 				for card in data
 					if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
-						msg.send "Check! @#{user} je bent nu #{state}"
+						msg.send "Check! #{cardmatch} je bent nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
-						msg.send "Check! @#{user} je staat nu op #{state}"
+						msg.send "Check! #{cardmatch} je staat nu op #{state}"
 		else if state is "thuis"
 			list_id = '565eb0554688609aecd8948a'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
-						msg.send "Check! @#{user} succes met #{state} werken."
+						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
 				"`trello set Naam to aanwezig`, " +
