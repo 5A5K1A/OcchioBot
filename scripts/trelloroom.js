@@ -122,9 +122,11 @@ module.exports = function (robot) {
                 msg.reply("Sorry, but there was an error reading the list of boards.");
                 return;
             }
+            var answer;
             data.forEach(function (board) {
-                msg.send("* " + board.name);
+                answer.push("* " + board.name);
             });
+            msg.send answer.join('\n');
         });
     });
 
