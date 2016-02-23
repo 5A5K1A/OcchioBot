@@ -168,8 +168,10 @@ module.exports = (robot) ->
 			card_match = 'iedereen'
 			msg.send card_match
 		else if card_match not in all_names
+			msg.send card_match
 			msg.send "Helaas, ik heb geen Trello card kunnen vinden met #{card_match}"
 		else
+			msg.send card_match
 			msg.send "er is een kaart met deze naam"
 			for card in all_cards
 				if card_match is card.name
