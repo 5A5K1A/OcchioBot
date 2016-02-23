@@ -222,6 +222,13 @@ module.exports = function (robot) {
         msg.send("Ok, from now on this room is connected to the trello board: " + boardName);
     });
 
+    robot.respond(/unset board/i, function (msg) {
+        ensureConfig(msg.send);
+        var room = findRoom(msg);
+        saveBoard(room, 0);
+        msg.send("Ok, there's no board connected to this room now.");
+    });
+
     robot.respond(/show current board$/i, function (msg) {
         ensureConfig(msg.send);
         var board = getRoomBoard(msg);
