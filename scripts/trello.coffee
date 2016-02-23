@@ -1,5 +1,5 @@
 # Description:
-#   Add entries to trello directly from hubot
+#   Mainly for controling the Aanwezigheid board
 #
 # Dependencies:
 #   "node-trello": "0.1.2"
@@ -8,12 +8,11 @@
 #   HUBOT_TRELLO_KEY - your trello developer key
 #
 # Commands:
-#   trello get board <board> - get the specified Trello board
 #   trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
 #   trello afwezig - get list 'AFWEZIG' from 'Aanwezigheid'
 #   trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
-#   trello set <Naam> to <state> - <Naam> zoals op de Trello kaart, <state> = `aanwezig` / `afwezig` / `thuis`
-#   trello set all to afwezig - zet iedereen op afwezig
+#   trello move <Naam> to <state> - <Naam> zoals op de Trello kaart, <state> = `aanwezig` / `afwezig` / `thuis`
+#   trello move all to afwezig - zet iedereen op afwezig
 #
 # Notes:
 #   Currently cards can only be added to your default list/board although
@@ -142,7 +141,7 @@ module.exports = (robot) ->
 			msg.send "Deze collega's werken vandaag niet:\n" +
 				thuis.join("\n")
 
-	robot.hear /^trello set (.*) to (.*)/i, (msg) ->
+	robot.hear /^trello move (.*) to (.*)/i, (msg) ->
 		user = msg.message.user
 		cardmatch = msg.match[1]
 		state = msg.match[2]
@@ -178,9 +177,9 @@ module.exports = (robot) ->
 						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
-				"`trello set Naam to aanwezig`, " +
-				"`trello set Naam to afwezig` of " +
-				"`trello set Naam to thuis`"
+				"`trello move Naam to aanwezig`, " +
+				"`trello move Naam to afwezig` of " +
+				"`trello move Naam to thuis`"
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
