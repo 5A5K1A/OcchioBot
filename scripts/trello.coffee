@@ -162,6 +162,7 @@ module.exports = (robot) ->
 		if card_match is 'all'
 			msg.send card_match
 			for card in all_cards
+				msg.send card.name
 				title = card.name
 				if title.match(/^↓/) is null
 					selection.push card
