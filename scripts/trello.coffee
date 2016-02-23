@@ -157,7 +157,7 @@ module.exports = (robot) ->
 				for card in data
 					if cardmatch is card.name
 						allcards.push "* #{card.name} - #{card.idList}"
-						trello.put "/1/cards/#{card.id}/#{list_id}"
+						trello.put "/1/cards/#{card.id}/idListlink?value=#{list_id}"
 				msg.send allcards.join("\n")
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
