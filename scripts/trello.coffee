@@ -98,9 +98,9 @@ module.exports = (robot) ->
 				else
 					aanwezig.push card.name
 			if num is 0
-				msg.send "Er zijn nu geen mensen op kantoor."
+				msg.send "Er is nu helemaal niemand op kantoor."
 			else
-				msg.send "De volgende #{num} mensen zijn op kantoor:\n" +
+				msg.send "Er zijn #{num} mensen op kantoor:\n" +
 					aanwezig.join("\n")
 
 	robot.hear /^trello thuis/i, (msg) ->
@@ -110,14 +110,19 @@ module.exports = (robot) ->
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		thuis = []
+		num = 0
 		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
 				if card.name.match(/^↓/) is null
 					thuis.push "* #{card.name}"
+					num = num + 1
 				else
 					thuis.push card.name
-			msg.send "Deze collega's werken vandaag thuis:\n" +
-				thuis.join("\n")
+			if num is 0
+				msg.send "Er werkt nu niemand thuis."
+			else
+				msg.send "Deze collega's werken vandaag thuis:\n" +
+					thuis.join("\n")
 
 	robot.hear /^trello afwezig/i, (msg) ->
 		list_id = '565eb04fe98a114dc96018ab'
@@ -126,11 +131,16 @@ module.exports = (robot) ->
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		thuis = []
+		num = 0
 		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
 				thuis.push "* #{card.name}"
-			msg.send "Deze collega's werken vandaag niet:\n" +
-				thuis.join("\n")
+				num = num + 1
+			if num is 0
+				msg.send "Goed zo! Iedereen is aan het werk."
+			else
+				msg.send "#{num} collega's werken vandaag niet:\n" +
+					thuis.join("\n")
 
 	robot.hear /^trello move (.*) to (.*)/i, (msg) ->
 		user = msg.message.user
