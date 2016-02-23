@@ -158,10 +158,12 @@ module.exports = (robot) ->
 						msg.send "#{card.name} (#{card.idList} - #{card.id})"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
-			msg.reply excuse + "set state to #{state}"
+			msg.reply excuse + "set state of #{cardname} to #{state} " +
+				cardname + " (board_id " + board_id + ")"
 		else if state is "thuis"
 			list_id = '565eb0554688609aecd8948a'
-			msg.reply excuse + "set state to #{state}"
+			msg.reply excuse + "set state of #{cardname} to #{state} " +
+				cardname + " (board_id " + board_id + ")"
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
 				"`trello set me to aanwezig`, " +
