@@ -48,7 +48,7 @@ module.exports = (robot) ->
 
 	robot.hear /wie (.*) vandaag op kantoor/i, (res) ->
 		res.send "Dan moet je even op het Trello bord (https://trello.com/b/6MvsMMx1/aanwezigheid) kijken,\n" +
-			"of je kunt `occhio trello aanwezig` gebruiken."
+			"of je kunt `trello aanwezig` gebruiken."
 
 	dance = [":D|-<", ":D/-<", ":D\-<", ":D>-<"]
 	robot.hear /dance\b/, (msg) ->
@@ -150,13 +150,7 @@ module.exports = (robot) ->
 		if users.length is 1
 			user = users[0]
 			realname = user.real_name
-			email = user.email
-
-			if email == undefined
-				email = "info@occhio.nl o.v.v. #{realname}"
-
-			msg.send "#{name} is gaat IRL onder de naam #{realname}\n" +
-				"en is te mailen op #{email}"
+			msg.send "#{name} is gaat IRL onder de naam #{realname}"
 
 ##### other stuff #####
 	robot.router.post '/hubot/chatsecrets/:room', (req, msg) ->

@@ -9,7 +9,7 @@
 #
 # Commands:
 #   hubot shoot target - Fires a foam dart at the target
-#   hubot shoot target in the leg/head/body - Fires a foam dart at the specified bodypart of the target
+#   hubot shoot target in the leg/head/body - Fires a foam dart at the leg/head/body of the target
 #
 # Notes:
 #   None
