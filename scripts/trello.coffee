@@ -156,7 +156,7 @@ module.exports = (robot) ->
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is 'all'
-
+						msg.send 'all'
 					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 						msg.send "Check! #{cardmatch} is nu #{state}"
