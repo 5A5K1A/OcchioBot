@@ -160,6 +160,7 @@ module.exports = (robot) ->
 		trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 			all_cards = data
 			all_names = all_cards.map (trello_card) -> trello_card.name
+			msg.send all_names.join(", ")
 		if card_match is 'all'
 			for card in all_cards
 				title = card.name
