@@ -12,6 +12,7 @@
 #   trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
 #   trello afwezig - get list 'AFWEZIG' from 'Aanwezigheid'
 #   trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
+#   trello set <Naam> to <state> - <Naam> is je naam zoals op de Trello kaart, <state> is `aanwezig`, `afwezig` of `thuis`
 #
 # Notes:
 #   Currently cards can only be added to your default list/board although
@@ -166,9 +167,9 @@ module.exports = (robot) ->
 				"(board_id #{board_id})"
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
-				"`trello set me to aanwezig`, " +
-				"`trello set me to afwezig` of " +
-				"`trello set me to thuis`"
+				"`trello set Naam to aanwezig`, " +
+				"`trello set Naam to afwezig` of " +
+				"`trello set Naam to thuis`"
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
