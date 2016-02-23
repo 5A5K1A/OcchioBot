@@ -153,8 +153,7 @@ module.exports = (robot) ->
 				"(board_id #{board_id})"
 			trello.get "/boards/#{board_id}/cards", (err, data) ->
 				msg.send card.name for card in data
-				if card.name is cardmatch
-					msg.send "#{card.name} (#{card.idList} - #{card.id})"
+				
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
 			msg.reply excuse + "set state of #{cardmatch} to #{state}\n" +
