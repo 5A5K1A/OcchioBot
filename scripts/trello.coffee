@@ -27,17 +27,8 @@ module.exports = (robot) ->
 	trello_key = process.env.HUBOT_TRELLO_KEY
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
 
-	robot.hear /^trello all the users/i, (msg) ->
-		theReply = "Here is who I know:\n"
-
-		for own key, user of robot.brain.data.users
-			if(user.trellotoken)
-				theReply += user.name + "\n"
-
-		msg.send theReply
-
 	robot.hear /^trello get token/, (msg) ->
-		msg.send "Get a token from https://trello.com/1/authorize?key=#{trello_key}&name=cicsbot&expiration=30days&response_type=token&scope=read,write"
+		msg.send "Get a token from https://trello.com/1/authorize?key=#{trello_key}&name=occhiobot&expiration=never&response_type=token&scope=read,write"
 		msg.send "Then send it back to me as \"trello add token <token>\""
 
 	robot.hear /^trello add token ([a-f0-9]+)/i, (msg) ->
