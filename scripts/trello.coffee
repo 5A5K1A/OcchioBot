@@ -8,9 +8,9 @@
 #   HUBOT_TRELLO_KEY - your trello developer key
 #
 # Commands:
-#   trello aanwezig - get list 'OP KANTOOR' from 'Aanwezigheid'
+#   trello aanwezig (BG/beneden) - get list 'OP KANTOOR' from 'Aanwezigheid'
 #   trello afwezig - get list 'AFWEZIG' from 'Aanwezigheid'
-#   trello thuis - get list 'THUISWERKEN' from 'Aanwezigheid'
+#   trello thuis (klant) - get list 'THUISWERKEN' from 'Aanwezigheid'
 #   trello move <Naam> to <state> - <Naam> zoals op de Trello kaart, <state> = `aanwezig` / `afwezig` / `thuis`
 #   trello move all to afwezig - zet iedereen op afwezig
 #
@@ -142,10 +142,14 @@ module.exports = (robot) ->
 				msg.send "#{num} collega's werken vandaag niet:\n" +
 					thuis.join("\n")
 
-	robot.hear /^trello move (.*) to (.*)/i, (msg) ->
+	robot.hear /^trello move (.*) to (.*) (.*)/i, (msg) ->
 		user = msg.message.user
 		cardmatch = msg.match[1]
 		state = msg.match[2]
+		location = msg.match[3]
+		specify = '&pos=top'
+		if location is not ''
+			specify = '&pos=bottom'
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
@@ -155,7 +159,7 @@ module.exports = (robot) ->
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
+						trello.put "/1/cards/#{card.id}?idList=#{list_id}" + specify
 						msg.send "Check! #{cardmatch} is nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
@@ -163,7 +167,7 @@ module.exports = (robot) ->
 				for card in data
 					if cardmatch is 'all'
 						if card.name.match(/^↓/) is null
-							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}" + specify
 					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
 						msg.send "Check! #{cardmatch} staat nu op #{state}"
@@ -174,7 +178,7 @@ module.exports = (robot) ->
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}" + specify
 						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
