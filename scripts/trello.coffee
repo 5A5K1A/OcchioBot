@@ -147,7 +147,7 @@ module.exports = (robot) ->
 		cardmatch = msg.match[1]
 		state = msg.match[2]
 		location = msg.match[3]
-		if location is not ''
+		if location
 			specify = 'pos=bottom'
 		else
 			specify = 'pos=top'
