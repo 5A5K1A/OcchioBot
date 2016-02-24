@@ -155,6 +155,8 @@ module.exports = (robot) ->
 		board_id = '565eb03adfd83c6f053bd88a'
 		allcards = []
 		if state is "aanwezig"
+			if msg.match[3]
+				state += ' op BG'
 			list_id = '565eb03ef6a6e23e7d04219b'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
