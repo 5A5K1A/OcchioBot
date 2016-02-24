@@ -147,14 +147,13 @@ module.exports = (robot) ->
 		cardmatch = msg.match[1]
 		state = msg.match[2]
 		specify = 'pos=top'
-		if msg.match[3]
-			specify = 'pos=bottom'
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
 		allcards = []
 		if state is "aanwezig"
 			if msg.match[3]
+				specify = 'pos=bottom'
 				state += ' op BG'
 			list_id = '565eb03ef6a6e23e7d04219b'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
@@ -176,6 +175,7 @@ module.exports = (robot) ->
 					msg.send "Ja hoor, iedereen staat nu op #{state}"
 		else if state is "thuis"
 			if msg.match[3]
+				specify = 'pos=bottom'
 				state = 'bij de klant'
 			list_id = '565eb0554688609aecd8948a'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
