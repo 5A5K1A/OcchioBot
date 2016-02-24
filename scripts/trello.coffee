@@ -155,7 +155,7 @@ module.exports = (robot) ->
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
 						msg.send "Check! #{cardmatch} is nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
@@ -165,7 +165,7 @@ module.exports = (robot) ->
 						if card.name.match(/^↓/) is null
 							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 					else if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
 						msg.send "Check! #{cardmatch} staat nu op #{state}"
 				if cardmatch is 'all'
 					msg.send "Ja hoor, iedereen staat nu op #{state}"
