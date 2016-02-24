@@ -142,14 +142,13 @@ module.exports = (robot) ->
 				msg.send "#{num} collega's werken vandaag niet:\n" +
 					thuis.join("\n")
 
-	robot.hear /^trello move (.*) to (.*) (.*)/i, (msg) ->
+	robot.hear /^trello move (.*) to (.*)(.*)/i, (msg) ->
 		user = msg.message.user
 		cardmatch = msg.match[1]
 		state = msg.match[2]
+		specify = 'pos=top'
 		if msg.match[3]
-			specify = 'pos=bottom'
-		else
-			specify = 'pos=top'
+			specify = 'pos=bottom'			
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
