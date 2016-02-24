@@ -69,6 +69,11 @@ module.exports = (robot) ->
 	robot.hear /error/i, (msg) ->
 		msg.send error_reply
 
+	robot.hear /^(sweet|dude)!?/i, (msg) ->
+		switch msg.match[1].toLowerCase()
+			when "sweet" then msg.send "Dude!"
+			when "dude" then msg.send "Sweet!"
+
 ##### robot responds (need to be called by name - occhio / @occhio) ... #####
 	robot.respond /open the (.*) doors/i, (msg) ->
 		doorType = msg.match[1]
