@@ -147,9 +147,10 @@ module.exports = (robot) ->
 		cardmatch = msg.match[1]
 		state = msg.match[2]
 		location = msg.match[3]
-		specify = '&pos=top'
 		if location is not ''
 			specify = '&pos=bottom'
+		else
+			specify = '&pos=top'
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
