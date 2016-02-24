@@ -31,7 +31,7 @@ module.exports = (robot) ->
 			"Als je hulp nodig hebt, kan je met `occhio help` zien wat ik allemaal voor je kan regelen.\n" +
 			"_Momenteel bevind ik me nog in de constructie-fase, so bear with me..._"
 
-	error_reply = "Computer says noo...\n" +
+	error_reply = "ERROR : Computer says noo...\n" +
 		"https://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"
 
 	robot.hear /wie is (.*)occhio/i, (res) ->
@@ -161,7 +161,7 @@ module.exports = (robot) ->
 		if users.length is 1
 			user = users[0]
 			realname = user.real_name
-			msg.send "#{name} is gaat IRL onder de naam #{realname}"
+			msg.send "#{name} gaat IRL onder de naam #{realname}"
 
 ##### other stuff #####
 	robot.router.post '/hubot/chatsecrets/:room', (req, msg) ->
