@@ -31,7 +31,13 @@ module.exports = (robot) ->
 			"Als je hulp nodig hebt, kan je met `occhio help` zien wat ik allemaal voor je kan regelen.\n" +
 			"_Momenteel bevind ik me nog in de constructie-fase, so bear with me..._"
 
+	error_reply = "Computer says noo...\n" +
+		"https://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"
+
 	robot.hear /wie is (.*)occhio/i, (res) ->
+		res.send introduction
+
+	robot.hear /wie is (.*) nieuwe bot/i, (res) ->
 		res.send introduction
 
 	robot.hear /badger/i, (res) ->
@@ -59,6 +65,9 @@ module.exports = (robot) ->
 	robot.hear /DANCE\b/, (msg) ->
 		for move in dance
 			msg.emote "dances #{move}"
+
+	robot.hear /error/i, (msg) ->
+		msg.send error_reply
 
 ##### robot responds (need to be called by name - occhio / @occhio) ... #####
 	robot.respond /open the (.*) doors/i, (msg) ->
@@ -168,5 +177,4 @@ module.exports = (robot) ->
 		robot.logger.error "DOES NOT COMPUTE"
 
 		if msg?
-			msg.reply "Computer says noo...\n" +
-				"https://media.giphy.com/media/3rgXBAnIuFzJnSTMA0/giphy.gif"
+			msg.reply error_reply
