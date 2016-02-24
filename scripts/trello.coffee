@@ -146,7 +146,6 @@ module.exports = (robot) ->
 		user = msg.message.user
 		cardmatch = msg.match[1]
 		state = msg.match[2]
-		msg.send msg.match[3]
 		specify = 'pos=top'
 		if msg.match[3]
 			specify = 'pos=bottom'
@@ -162,7 +161,7 @@ module.exports = (robot) ->
 				for card in data
 					if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}?idList=#{list_id}&#{specify}"
-						msg.send "Check! #{cardmatch} is nu #{state}"
+						msg.send ":white_check_mark: #{cardmatch} is nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
@@ -172,10 +171,12 @@ module.exports = (robot) ->
 							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
-						msg.send "Check! #{cardmatch} staat nu op #{state}"
+						msg.send "Okidoki! #{cardmatch} staat nu op #{state}"
 				if cardmatch is 'all'
 					msg.send "Ja hoor, iedereen staat nu op #{state}"
 		else if state is "thuis"
+			if msg.match[3]
+				state = 'bij de klant'
 			list_id = '565eb0554688609aecd8948a'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
@@ -184,9 +185,9 @@ module.exports = (robot) ->
 						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
-				"`trello move Naam to aanwezig`, " +
+				"`trello move Naam to aanwezig` met eventueel BG/beneden, " +
 				"`trello move Naam to afwezig` of " +
-				"`trello move Naam to thuis`"
+				"`trello move Naam to thuis` met eventueel klant/klantnaam"
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
