@@ -148,7 +148,7 @@ module.exports = (robot) ->
 		state = msg.match[2]
 		msg.send msg.match[3]
 		specify = 'pos=top'
-		if msg.match[3] is not ''
+		if msg.match[3]
 			specify = 'pos=bottom'
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
