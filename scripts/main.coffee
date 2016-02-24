@@ -112,7 +112,7 @@ module.exports = (robot) ->
 		"No. There is... another... Sky... walker..."
 	]
 	robot.hear /yoda/i, (msg) ->
-		msg.send msg.random yoda_quotes
+		msg.send "Yoda says: " + msg.random yoda_quotes
 
 ##### robot responds (need to be called by name - occhio / @occhio) ... #####
 	robot.respond /open the (.*) doors/i, (msg) ->
