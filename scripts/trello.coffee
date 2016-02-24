@@ -148,9 +148,9 @@ module.exports = (robot) ->
 		state = msg.match[2]
 		location = msg.match[3]
 		if location is not ''
-			specify = '&pos=bottom'
+			specify = 'pos=bottom'
 		else
-			specify = '&pos=top'
+			specify = 'pos=top'
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
@@ -160,7 +160,7 @@ module.exports = (robot) ->
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}?idList=#{list_id}" + specify
+						trello.put "/1/cards/#{card.id}?idList=#{list_id}&#{specify}"
 						msg.send "Check! #{cardmatch} is nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
@@ -168,7 +168,7 @@ module.exports = (robot) ->
 				for card in data
 					if cardmatch is 'all'
 						if card.name.match(/^↓/) is null
-							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}" + specify
+							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
 					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
 						msg.send "Check! #{cardmatch} staat nu op #{state}"
@@ -179,7 +179,7 @@ module.exports = (robot) ->
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}" + specify
+						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}&#{specify}
 						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
