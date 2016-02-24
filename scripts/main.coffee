@@ -31,7 +31,7 @@ module.exports = (robot) ->
 			"Als je hulp nodig hebt, kan je met `occhio help` zien wat ik allemaal voor je kan regelen.\n" +
 			"_Momenteel bevind ik me nog in de constructie-fase, so bear with me..._"
 
-	robot.hear /wie is occhio/i, (res) ->
+	robot.hear /wie is (.*)occhio/i, (res) ->
 		res.send introduction
 
 	robot.hear /badger/i, (res) ->
