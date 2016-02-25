@@ -19,6 +19,11 @@
 
 module.exports = (robot) ->
 
+	today = new Date
+
+	robot.hear /^get date/i, (res) ->
+		res.send today.getDay()
+
 ##### robot hears ... #####
 	robot.hear /^hubot? (.+)/i, (res) ->
 		response = "Sorry, I'm a diva and only respond to #{robot.name}"

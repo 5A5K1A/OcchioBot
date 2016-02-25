@@ -21,16 +21,11 @@
 # Author:
 #   saskia@occhio
 
-currentdate = new Date
-
 module.exports = (robot) ->
 	Trello = require 'node-trello'
 
 	trello_key = process.env.HUBOT_TRELLO_KEY
 	trello_token = process.env.HUBOT_TRELLO_TOKEN
-
-	robot.hear /date/i, (msg) ->
-		msg.send currentdate
 
 	robot.hear /^trello get token/, (msg) ->
 		msg.send "Get a token from https://trello.com/1/authorize?key=#{trello_key}&name=Occhio%20Bot&expiration=never&response_type=token&scope=read,write" +
