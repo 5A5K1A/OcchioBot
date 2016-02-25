@@ -19,9 +19,9 @@
 
 module.exports = (robot) ->
 
-	today = new Date
-
 	robot.hear /^get date/i, (res) ->
+		today = new Date
+		console.log today
 		res.send today.getHours()
 
 ##### robot hears ... #####
