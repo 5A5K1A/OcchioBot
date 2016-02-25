@@ -26,7 +26,8 @@ module.exports = (robot) ->
 		res.reply response
 		return
 
-	introduction = "Let me introduce myself...\nIk ben de enige echte Occhio Bot.\n" +
+	introduction = "Oh, dat is een goeie vraag!\n" +
+			"Let me introduce myself properly...\nIk ben de enige echte *Occhio Bot*.\n" +
 			"I'm here to help & guide you through the wonders of Slack & Occhio... Let's go!\n" +
 			"Als je hulp nodig hebt, kan je met `occhio help` zien wat ik allemaal voor je kan regelen.\n" +
 			"_Momenteel bevind ik me nog in de constructie-fase, so bear with me..._"
