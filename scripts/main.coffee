@@ -22,7 +22,7 @@ module.exports = (robot) ->
 	today = new Date
 
 	robot.hear /^get date/i, (res) ->
-		res.send today.getDay()
+		res.send today.getHours()
 
 ##### robot hears ... #####
 	robot.hear /^hubot? (.+)/i, (res) ->
