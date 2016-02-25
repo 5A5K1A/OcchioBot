@@ -142,48 +142,52 @@ module.exports = (robot) ->
 				msg.send "#{num} collega's werken vandaag niet:\n" +
 					thuis.join("\n")
 
-	robot.hear /^trello move (.*) to (.*)(\*)(.*)/i, (msg) ->
+	robot.hear /^trello move (.*) to (aanwezig|afwezig|thuis)\s?(.*)?/i, (msg) ->
 		user = msg.message.user
 		cardmatch = msg.match[1]
 		state = msg.match[2]
 		specify = 'pos=top'
-		if msg.match[3]
-			specify = 'pos=bottom'			
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
 		board_id = '565eb03adfd83c6f053bd88a'
 		allcards = []
 		if state is "aanwezig"
+			if msg.match[3]
+				specify = 'pos=bottom'
+				state += ' op BG'
 			list_id = '565eb03ef6a6e23e7d04219b'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}?idList=#{list_id}&#{specify}"
-						msg.send "Check! #{cardmatch} is nu #{state}"
+						msg.send ":white_check_mark: #{cardmatch} is nu #{state}"
 		else if state is "afwezig"
 			list_id = '565eb04fe98a114dc96018ab'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is 'all'
 						if card.name.match(/^↓/) is null
-							trello.put "/1/cards/#{card.id}/idList?value=#{list_id}"
+							trello.put "/1/cards/#{card.id}?idList=#{list_id}"
 					else if cardmatch is card.name
 						trello.put "/1/cards/#{card.id}?idList=#{list_id}"
-						msg.send "Check! #{cardmatch} staat nu op #{state}"
+						msg.send "Okidoki! #{cardmatch} staat nu op #{state}"
 				if cardmatch is 'all'
 					msg.send "Ja hoor, iedereen staat nu op #{state}"
 		else if state is "thuis"
+			if msg.match[3]
+				specify = 'pos=bottom'
+				state = 'bij de klant'
 			list_id = '565eb0554688609aecd8948a'
 			trello.get "/1/boards/#{board_id}/cards", (err, data) ->
 				for card in data
 					if cardmatch is card.name
-						trello.put "/1/cards/#{card.id}/idList?value=#{list_id}&#{specify}"
+						trello.put "/1/cards/#{card.id}?idList=#{list_id}&#{specify}"
 						msg.send "Check! #{cardmatch} succes met #{state} werken."
 		else
 			msg.reply "Sorry, ik begrijp je niet. Maak een keuze uit\n" +
-				"`trello move Naam to aanwezig`, " +
+				"`trello move Naam to aanwezig` met eventueel BG/beneden, " +
 				"`trello move Naam to afwezig` of " +
-				"`trello move Naam to thuis`"
+				"`trello move Naam to thuis` met eventueel klant/klantnaam"
 
 	robot.hear /^trello me (.*)/i, (msg) ->
 		content = msg.match[1]
