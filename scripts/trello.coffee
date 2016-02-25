@@ -142,7 +142,7 @@ module.exports = (robot) ->
 				msg.send "#{num} collega's werken vandaag niet:\n" +
 					thuis.join("\n")
 
-	robot.hear /^trello move (.*) to (.*)(.*)/i, (msg) ->
+	robot.hear /^trello move (.*) to (.*)(\*)(.*)/i, (msg) ->
 		user = msg.message.user
 		cardmatch = msg.match[1]
 		state = msg.match[2]
