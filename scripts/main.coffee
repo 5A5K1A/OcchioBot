@@ -20,9 +20,7 @@
 module.exports = (robot) ->
 
 	robot.hear /date/i, (res) ->
-		today = new Date()
-		console.log today
-		res.send today
+    	msg.send "Server time is: #{new Date()}"
 
 ##### robot hears ... #####
 	robot.hear /^hubot? (.+)/i, (res) ->
