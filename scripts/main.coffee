@@ -170,7 +170,7 @@ module.exports = (robot) ->
 	beerz = ['Sure!', 'Lekker', 'Ja hoor...', 'Vooruit dan', 'Gezellig', 'Zeker']
 	drunkz = ['OK, nog eentje dan...', 'Heladijoo, heladijee', 'En we gaan nog niet naar huis, nog languh niet...', 'BURP']
 
-	robot.respond /bier/i, (msg) ->
+	robot.respond /(.*)?(\s)?(bier)(.*)?/i, (msg) ->
 		beersHad = robot.brain.get('totalBeers') * 1 or 0
 		name = msg.message.user.name
 
