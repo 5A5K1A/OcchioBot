@@ -216,4 +216,4 @@ module.exports = (robot) ->
 			for card in data
 				if card.name.match(/^↓/) is null
 					aanwezig.push "#{card.name} +1"
-				msg.send msg.random aanwezig
+			msg.send msg.random aanwezig
