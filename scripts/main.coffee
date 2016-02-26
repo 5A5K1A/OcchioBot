@@ -119,6 +119,10 @@ module.exports = (robot) ->
 		msg.emote "blozen doet"
 		msg.reply "maar jij bent zelf ook lekker :kissing_heart:"
 
+	robot.hear /(:heart:|love)/i, (msg) ->
+		msg.reply "Heel goed! Let's spread some love!"
+		msg.send "@here :heart:"
+
 ##### robot responds (need to be called by name - occhio / @occhio) ... #####
 	robot.respond /open the (.*) doors/i, (msg) ->
 		doorType = msg.match[1]
