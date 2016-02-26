@@ -205,3 +205,15 @@ module.exports = (robot) ->
 			trello = new Trello trello_key, trellotoken
 			trello.post "/1/lists/#{trellolist}/cards", { name: content }, (err, data) ->
 				msg.reply "Added to your list - #{data.url}"
+
+	robot.hear /^(Wie zet vandaag de lunch klaar?)/i, (msg) ->
+		list_id = '565eb03ef6a6e23e7d04219b'
+		msg.send "Ik zal eerst eens kijken wie er vandaag allemaal aanwezig zijn."
+		trellotoken = trello_token
+		trello = new Trello trello_key, trellotoken
+		aanwezig = []
+		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
+			for card in data
+				if card.name.match(/^↓/) is null
+					aanwezig.push "#{card.name} +1"
+				msg.send msg.random aanwezig
