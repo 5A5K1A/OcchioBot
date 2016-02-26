@@ -115,6 +115,10 @@ module.exports = (robot) ->
 	robot.hear /yoda/i, (msg) ->
 		msg.send "Yoda says: " + msg.random yoda_quotes
 
+	robot.hear /lekker(e)? bot(je)?/i, (msg) ->
+		msg.emote "blozen doet"
+		msg.reply "maar jij bent zelf ook lekker :kissing_heart:"
+
 ##### robot responds (need to be called by name - occhio / @occhio) ... #####
 	robot.respond /open the (.*) doors/i, (msg) ->
 		doorType = msg.match[1]
