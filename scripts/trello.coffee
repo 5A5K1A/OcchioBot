@@ -130,17 +130,18 @@ module.exports = (robot) ->
 		user = msg.message.user
 		trellotoken = trello_token
 		trello = new Trello trello_key, trellotoken
-		thuis = []
+		afwezig = []
 		num = 0
 		trello.get "/1/lists/#{list_id}/cards", (err, data) ->
 			for card in data
-				thuis.push "* #{card.name}"
-				num = num + 1
+				if card.name.match(/Product/i) is null
+					afwezig.push "* #{card.name}"
+					num = num + 1
 			if num is 0
 				msg.send "Goed zo! Iedereen is aan het werk."
 			else
 				msg.send "#{num} collega's werken vandaag niet:\n" +
-					thuis.join("\n")
+					afwezig.join("\n")
 
 	robot.hear /^trello move (.*) to (aanwezig|afwezig|thuis)\s?(.*)?/i, (msg) ->
 		user = msg.message.user
