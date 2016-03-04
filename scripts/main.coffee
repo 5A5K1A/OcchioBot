@@ -20,6 +20,9 @@
 module.exports = (robot) ->
 
 ##### robot hears ... #####
+	robot.hear /events this week/i, (res) ->
+		res.send "Wat? Events? Nice! You go, girl :+1:"
+
 	robot.hear /^hubot? (.+)/i, (res) ->
 		response = "Sorry, I'm a diva and only respond to #{robot.name}"
 		response += " or #{robot.alias}" if robot.alias
