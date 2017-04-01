@@ -1,3 +1,4 @@
+![alt text](https://cloud.githubusercontent.com/assets/10548164/24576390/7ec1eb82-16bb-11e7-9d99-2838c19fc62f.png "Avatar OcchioBot")
 # OcchioBot
 
 OcchioBot is a chat bot built on the [Hubot][hubot] framework. It was
